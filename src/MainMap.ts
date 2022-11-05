@@ -38,7 +38,7 @@ export default class MainMap extends Phaser.Scene
 
 		// Set bounds
 		this.cameras.main.setBounds(0, 0, 992, 800) 
-		this.physics.world.setBounds(-40, -20, 1000, 810)
+		this.physics.world.setBounds(0, -5, 1005, 810)
 
 
 
@@ -106,7 +106,7 @@ update(time: number, delta: number): void
 {
 	// If cursors is not existing OR char is not existing, do nothing
 
-	const speed = 550;
+	const speed = 900;
 
 	if (!this.cursors || !this.char)
 	{
