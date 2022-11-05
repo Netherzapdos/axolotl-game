@@ -35,8 +35,10 @@ export default class MainMap extends Phaser.Scene
 		map.createLayer('Decor', tileset);
 		map.createLayer('Plots', tileset);
 		map.createLayer('House', tileset);
+		map.createLayer('Collisions', tileset); 
 
 		// Set bounds
+		// this.cameras.main.setPosition(0, 0)
 		this.cameras.main.setBounds(0, 0, 992, 800) 
 		this.physics.world.setBounds(0, -5, 1005, 810)
 
@@ -51,7 +53,7 @@ export default class MainMap extends Phaser.Scene
 
 		// Create character
 		
-		this.char = this.physics.add.sprite(50, 50, 'character')
+		this.char = this.physics.add.sprite(440, 340, 'character')
 		
 
 		this.char.setCollideWorldBounds(true); 
@@ -140,7 +142,7 @@ update(time: number, delta: number): void
 	}
 
 	this.cameras.main.startFollow(this.char, true)
-	// this.cameras.main.setBounds(0, 0, 750, 325, false)
+	
 }
 
 }
