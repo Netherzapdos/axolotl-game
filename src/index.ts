@@ -6,7 +6,7 @@ import Preloader from "./Preloader";
 
 const game = new Phaser.Game({
 	type: Phaser.AUTO,
-	width: 700,
+	width: 700, // Used to be 750, change this back if size-issues occur
 	height: 325,
 	backgroundColor: "#000c1f",
 	parent: "game",

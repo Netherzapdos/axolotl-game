@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Axolotl from "./components/Axolotl";
 
 export default class MainMap extends Phaser.Scene 
 {
@@ -39,21 +40,21 @@ export default class MainMap extends Phaser.Scene
 		this.matter.world.convertTilemapLayer(land);
 		
 
-		// Set bounds
+	// Set bounds
 		// this.cameras.main.setPosition(0, 0)
 		this.cameras.main.setBounds(0, 0, 992, 800) 
 		this.matter.world.setBounds(0, -5, 1005, 810)
 
 
 
-		// Create character
+	// Create character
 		this.char = this.matter.add.sprite(440, 340, 'character')
 		this.char.setCircle(5);   // Set hitbox to circle
 		this.char.setFixedRotation()  // Disable rotation/inertia
     
     
 		
-		// Character movement animations
+	// Character movement animations
 		this.char.anims.create({
 			key: 'idle',
 			frames: this.char.anims.generateFrameNumbers(
@@ -72,7 +73,7 @@ export default class MainMap extends Phaser.Scene
 					end: 8
 				}),
 				frameRate: 15,
-				repeat: -1
+				repeat: -1,
 		})
 
 		this.char.anims.create({
@@ -99,27 +100,15 @@ export default class MainMap extends Phaser.Scene
 		this.char.anims.play('idle', true) // Default idle animation if no key is pressed
 
 
-    // Axolotl
-    this.axl = this.matter.add.sprite(550, 450, 'wild_yellow')
-    this.axl.anims.create({
-      key: 'axl_idle',
-      frames: this.axl.anims.generateFrameNames(
-        'wild_yellow', {
-          start: 0,
-          end: 5
-        }),
-        frameRate: 5,
-        repeat: -1	// Loop
-    })
-    this.axl.anims.play('axl_idle');
-    this.axl.setFixedRotation();
+
+	// Create Axolotl
+		var yellowAxl = new Axolotl(this, 540, 450, 'wild_yellow', 'axl_idle'); // Decalre axl in this scene and pass details to Axolotls Class
+		yellowAxl.playAnim('wild_yellow', 'axl_idle');	// Play animation
 
 
 
 
-
-
-	}
+}
 
 
 update() 
@@ -131,6 +120,11 @@ update()
 	var upCursor = this.cursors.up;
 	var downCursor = this.cursors.down;
 	var leftCursor = this.cursors.left; 
+
+	var upRightCursor = upCursor.isDown && rightCursor.isDown; 
+	var upLeftCursor = upCursor.isDown && leftCursor.isDown; 
+	var downRightCursor = downCursor.isDown && rightCursor.isDown;
+	var downLeftCursor = downCursor.isDown && leftCursor.isDown;
 	
 	// If cursors is not existing OR char is not existing, do nothing
 	if (!this.cursors || !this.char)
@@ -140,55 +134,56 @@ update()
 
 	
 	// Right
-	else if (this.cursors.right.isDown)
+	else if (rightCursor.isDown)
 	{
 		playerSpeed.x = 1;
 		this.char.anims.play('right', true);	//True makes it play continuously when pressed
 		rightCursor.on('up', () => {this.char.anims.play('idle', true)})	//Plays right-side idle when right cursor is released
 	} 
 	// Left
-	else if (this.cursors.left.isDown)
+	else if (leftCursor.isDown)
 	{
 		playerSpeed.x = -1;
 		this.char.anims.play('left', true);
 		leftCursor.on('up', () => {this.char.anims.play('idle2', true)});
 	} 
 	// Up
-	else if (this.cursors.up.isDown)
+	else if (upCursor.isDown)
 	{
 		playerSpeed.y = -1;
 		this.char.anims.play('right', true);
 		upCursor.on('up', () => {this.char.anims.play('idle', true)});
 	} 
 	//Down
-	else if (this.cursors.down.isDown)
+	else if (downCursor.isDown)
 	{
 		playerSpeed.y = 1;
 		this.char.anims.play('left', true);
 		downCursor.on('up', () => {this.char.anims.play('idle2', true)});
 	} 
 
+
 	// Up Right
-	if (this.cursors.up.isDown && this.cursors.right.isDown)
+	if (upRightCursor)
 	{
 		playerSpeed.x = 1;
 		playerSpeed.y = -1;
 	}
 	// Up Left
-	if (this.cursors.up.isDown && this.cursors.left.isDown)
+	if (upLeftCursor)
 	{
 		playerSpeed.x = -1;
 		playerSpeed.y = -1; 
 		
 	}
 	// Down Left
-	if (this.cursors.down.isDown && this.cursors.left.isDown)
+	if (downLeftCursor)
 	{
 		playerSpeed.x = -1;
 		playerSpeed.y = 1; 
 	}
 	// Down Right
-	if (this.cursors.down.isDown && this.cursors.right.isDown)
+	if (downRightCursor)
 	{
 		playerSpeed.x = 1;
 		playerSpeed.y = 1; 

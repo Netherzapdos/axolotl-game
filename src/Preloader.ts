@@ -33,6 +33,10 @@ export default class Preloader extends Phaser.Scene
         this.load.spritesheet('wild_yellow', 'images/sprites/axolotls/wild_yellow_idle.png', 
             { frameWidth: 20, frameHeight: 20})
     
+
+
+
+        this.load.image('test', 'images/sprites/character/KEKWwait.png')
     }
 
     create()
