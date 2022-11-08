@@ -1,0 +1,9 @@
+body {
+    background-color: rgb(39, 81, 129);
+}
+
+.title {
+    color: aliceblue;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+}
