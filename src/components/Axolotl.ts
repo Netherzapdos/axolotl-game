@@ -1,23 +1,21 @@
 export default class Axolotl {
-    axl: any  // Declares it globally and avoid TS issues
-    constructor(scene: any, x: number, y: number, spriteSheetKey: string, animationKey: string) 
+    constructor(scene: any, x: number, y: number) 
     { 
-        this.axl = scene.matter.add.sprite(x, y, spriteSheetKey)  // Declare this.axl here
+        this.axl = scene.matter.add.sprite(x, y)  // Declare this.axl in this class
     }
 
-    playAnim(spriteSheetKey: string, animationKey: string)    // Run animation function
+    playAnim(spriteSheetKey: string, animationKey: string, start: number, end: number) 
     {  
         this.axl.anims.create({
                key: animationKey,
                frames: this.axl.anims.generateFrameNames(
                  spriteSheetKey, {
-                   start: 0,
-                   end: 5
+                   start: start,
+                   end: end
                  }),
                  frameRate: 5,
                  repeat: -1	// Loop
-             })
-             this.axl.anims.play(animationKey)
-             this.axl.setFixedRotation(); 
+        })
+        this.axl.anims.play(animationKey)
     }
 }
