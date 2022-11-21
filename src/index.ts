@@ -1,5 +1,5 @@
 
-import Phaser from "phaser";
+import Phaser, { Physics } from "phaser";
 
 import MainMap from "./MainMap";
 import Preloader from "./Preloader";
@@ -21,6 +21,12 @@ const game = new Phaser.Game({
 	  matter: {
 		gravity: { y: 0 }, 
 		debug: false
+		// {
+		// 	showAxes: false,
+		// 	showAngleIndicator: false,
+		// }
+		
 	  }
 	}
+
   });

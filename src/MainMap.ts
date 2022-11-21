@@ -12,11 +12,14 @@ export default class MainMap extends Phaser.Scene
     {
         super('mainmap')
     }
-    preload() {
-      this.cursors = this.input.keyboard.createCursorKeys();
+    preload()
+	{
+     
     }
   
     create() {
+
+		
 
      // Declare map and tileset
 		const map = this.make.tilemap({ key: 'island' });
@@ -50,14 +53,14 @@ export default class MainMap extends Phaser.Scene
 		this.char = new Character(this, 440, 340);	// Classes should be declared with "this.x" first, 
 		this.char.anims(); 							// then declare the variable at the top of this scene (sample for char above)
 													// this allows the Class to be then used anywhere here. 
-
+	
+	
 
 
 	// Create Axolotl
 		var yellowAxl = new Axolotl(this, 540, 450); // Declare axl in this scene and pass details to Axolotls Class
 		yellowAxl.playAnim('wild_yellow', 'axl_idle', 0, 5);	// Play animation
-
-
+		
 
 }
 

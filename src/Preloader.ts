@@ -28,15 +28,17 @@ export default class Preloader extends Phaser.Scene
             { frameWidth: 16, frameHeight: 32 }
         );
 
+        this.load.spritesheet('char_running_right', 'images/sprites/character/char_running_right.png',
+            { frameWidth: 32, frameHeight: 32 }
+        )
+        this.load.spritesheet('char_running_left', 'images/sprites/character/char_running_left.png',
+            { frameWidth: 32, frameHeight: 32 }
+        )
+
 
         // Axolotls
         this.load.spritesheet('wild_yellow', 'images/sprites/axolotls/wild_yellow_idle.png', 
             { frameWidth: 20, frameHeight: 20})
-    
-
-
-
-        this.load.image('test', 'images/sprites/character/KEKWwait.png')
     }
 
     create()
