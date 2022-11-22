@@ -1,12 +1,15 @@
 import Phaser from "phaser";
 
 export default class Character {
-	char: any;
+	char: Phaser.Physics.Matter.Sprite;		// Global declarations and types
 	cam: any;
 	speed!: number;
 	playerSpeed!: Phaser.Math.Vector2;
-	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;	// Declare cursors variable globally
+	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;	
 	keyboard: any;
+	rightStatus!: boolean; 
+	leftStatus!: boolean; 
+
 	constructor(scene: any, x: number, y: number) 
 	{
 		this.char = scene.matter.add.sprite(x, y, 'character')	// Declare char in this class
@@ -90,14 +93,21 @@ export default class Character {
 		this.char.setCircle(4); 	// Sets hitbox to circle
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
+
+		var rightStatus: boolean = false; // Has to be placed in here and not in move() below because move() is placed
+		var leftStatus: boolean = false;  // in update() in MainMap, which means right/leftStatus will always be refreshed as false,
+										  // so booleans won't work because it will stay as false each time move() is called.
+		
 	}
 
-	
+
 	move() 
 	{
 		this.speed = 0.20;	
 		var runSpeed = 0.45;	
 		this.playerSpeed = new Phaser.Math.Vector2; 
+		
+		
 
 
 	// Declare cursors
@@ -105,6 +115,8 @@ export default class Character {
 		var leftCursor = this.cursors.left; 
 		var downCursor = this.cursors.down;
 		var rightCursor = this.cursors.right;
+
+		
 
 		var W = this.keyboard.up;
 		var A = this.keyboard.left;
@@ -145,7 +157,10 @@ export default class Character {
 			this.playerSpeed.x = 1;
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
 			rightCursor.on('up', () => {this.char.anims.play('idle', true)})	//Plays right-side idle when right cursor is released
-			D.on('up', () => {this.char.anims.play('idle', true)})
+			D.on('up', () => {this.char.anims.play('idle', true)});
+			this.rightStatus = true; 
+			this.leftStatus = false; 
+			 
 		} 
 		
 		// Left
@@ -159,34 +174,99 @@ export default class Character {
 			this.playerSpeed.x = -1;
 			this.char.anims.play(anim, true);
 			leftCursor.on('up', () => {this.char.anims.play('idle2', true)});
-			A.on('up', () => {this.char.anims.play('idle2', true)})
+			A.on('up', () => {this.char.anims.play('idle2', true)});
+			this.rightStatus = false;
+			this.leftStatus = true; 
+			
 		} 
 		// Up
-		else if (upCursor.isDown || W.isDown)
-		{
-			let anim = 'right'
-			if (shift.isDown) {
-				this.speed = runSpeed;
-				anim = 'run_right';
+		else if (this.rightStatus == undefined || this.leftStatus == undefined) {	
+			if (upCursor.isDown || W.isDown)		
+			{
+				let anim = 'right';
+				if (shift.isDown) 
+				{
+					this.speed = runSpeed;
+					anim = 'run_right';
+				}
+				this.playerSpeed.y = -1;
+				this.char.anims.play(anim, true);
+				upCursor.on('up', () => {this.char.anims.play('idle', true)});
+				W.on('up', () => {this.char.anims.play('idle', true)});
 			}
-			this.playerSpeed.y = -1;
-			this.char.anims.play(anim, true);
-			upCursor.on('up', () => {this.char.anims.play('idle', true)});
-			W.on('up', () => {this.char.anims.play('idle', true)})
-		} 
-		//Down
-		else if (downCursor.isDown || S.isDown)
-		{
-			let anim = 'left'
-			if (shift.isDown) {
-				this.speed = runSpeed;
-				anim = 'run_left';
+			else if (downCursor.isDown || S.isDown)
+			{
+				let anim = 'right'
+				if (shift.isDown) 
+				{
+					this.speed = runSpeed;
+					anim = 'run_right';
+				}
+				this.playerSpeed.y = 1;
+				this.char.anims.play(anim, true);
+				downCursor.on('up', () => {this.char.anims.play('idle', true)});
+				S.on('up', () => {this.char.anims.play('idle', true)});
 			}
-			this.playerSpeed.y = 1;
-			this.char.anims.play(anim, true);
-			downCursor.on('up', () => {this.char.anims.play('idle2', true)});
-			S.on('up', () => {this.char.anims.play('idle2', true)})
-		} 
+		}
+		else if (this.rightStatus == true)
+		{
+			if (upCursor.isDown || W.isDown)
+			{
+				let anim = 'right';
+				if (shift.isDown) 
+				{
+					this.speed = runSpeed;
+					anim = 'run_right';
+				}
+				this.playerSpeed.y = -1;
+				this.char.anims.play(anim, true);
+				upCursor.on('up', () => {this.char.anims.play('idle', true)});
+				W.on('up', () => {this.char.anims.play('idle', true)}); 
+			}
+			else if (downCursor.isDown || S.isDown)
+			{
+				let anim = 'right'
+				if (shift.isDown) {
+					this.speed = runSpeed;
+					anim = 'run_right';
+				}
+				this.playerSpeed.y = 1;
+				this.char.anims.play(anim, true);
+				downCursor.on('up', () => {this.char.anims.play('idle', true)});
+				S.on('up', () => {this.char.anims.play('idle', true)});
+			}
+			
+		}
+		else if (this.leftStatus == true)
+		{
+			if (upCursor.isDown || W.isDown)
+			{
+				let anim = 'left';
+				if (shift.isDown) 
+				{
+					this.speed = runSpeed;
+					anim = 'run_left';
+				}
+				this.playerSpeed.y = -1;
+				this.char.anims.play(anim, true);
+				upCursor.on('up', () => {this.char.anims.play('idle2', true)});
+				W.on('up', () => {this.char.anims.play('idle2', true)}); 
+			}
+			else if (downCursor.isDown || S.isDown)
+			{
+				let anim = 'left'
+				if (shift.isDown) {
+					this.speed = runSpeed;
+					anim = 'run_left';
+				}
+				this.playerSpeed.y = 1;
+				this.char.anims.play(anim, true);
+				downCursor.on('up', () => {this.char.anims.play('idle2', true)});
+				S.on('up', () => {this.char.anims.play('idle2', true)});
+			}
+			
+		}
+		
 
 		// Up Right
 		if (upRightCursor || WD)
