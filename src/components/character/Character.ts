@@ -22,6 +22,9 @@ export default class Character {
 			'left': Phaser.Input.Keyboard.KeyCodes.A,
 			'shift': Phaser.Input.Keyboard.KeyCodes.SHIFT
 		})
+		var rightStatus: boolean = false; // Has to be placed in here and not in move() below because move() is placed
+		var leftStatus: boolean = false;  // in update() in MainMap, which means right/leftStatus will always be refreshed as false,
+										  // so booleans won't work because it will stay as false each time move() is called.
 	}
 
 
@@ -94,9 +97,7 @@ export default class Character {
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
 
-		var rightStatus: boolean = false; // Has to be placed in here and not in move() below because move() is placed
-		var leftStatus: boolean = false;  // in update() in MainMap, which means right/leftStatus will always be refreshed as false,
-										  // so booleans won't work because it will stay as false each time move() is called.
+		
 		
 	}
 
@@ -107,16 +108,11 @@ export default class Character {
 		var runSpeed = 0.45;	
 		this.playerSpeed = new Phaser.Math.Vector2; 
 		
-		
-
-
 	// Declare cursors
-		var upCursor = this.cursors.up;
+		var upCursor = this.cursors.up; 
 		var leftCursor = this.cursors.left; 
 		var downCursor = this.cursors.down;
 		var rightCursor = this.cursors.right;
-
-		
 
 		var W = this.keyboard.up;
 		var A = this.keyboard.left;
@@ -143,7 +139,7 @@ export default class Character {
 		// Prevents players from abruptly moving the opposite direction when holding the other direction
 		if (rightCursor.isDown && leftCursor.isDown) {return}
 		else if (D.isDown && A.isDown) {return}
-		else if (upCursor.isDown && leftCursor) {return}
+		else if (upCursor.isDown && downCursor.isDown) {return}
 		else if (W.isDown && S.isDown) {return}; 
 
 		// Right
