@@ -1,7 +1,6 @@
 
 import Phaser, { Physics } from "phaser";
-
-import MainMap from "./MainMap";
+import Game from "./Game";
 import Preloader from "./Preloader";
 
 const game = new Phaser.Game({
@@ -13,7 +12,7 @@ const game = new Phaser.Game({
 	pixelArt: true,
   
 	// Load our yet-to-be-created custom scene
-	scene: [Preloader, MainMap],
+	scene: [Preloader, Game],
 	scale: {zoom: 2, parent: 'game', autoCenter: Phaser.Scale.CENTER_BOTH}, 
   
 	physics: {
