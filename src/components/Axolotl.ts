@@ -1,4 +1,7 @@
 export default class Axolotl {
+
+    axl: Phaser.Physics.Matter.Sprite;	
+
     constructor(scene: any, x: number, y: number) 
     { 
         this.axl = scene.matter.add.sprite(x, y)  // Declare this.axl in this class

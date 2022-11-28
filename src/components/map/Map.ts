@@ -1,6 +1,6 @@
 export default class MainMap
 {
-    map: any
+    map!: Phaser.Tilemaps.MapData; 
 
     constructor(scene: any)
     {

@@ -5,14 +5,14 @@ import Map from "./components/map/Map"
 
 export default class Game extends Phaser.Scene 
 {
-    private cursors!: Phaser.Types.Input.Keyboard.CursorKeys; 
-	private char!: any; 
+	char!: any; 
 	map!: Map;
+
     
 
     constructor()
     {
-        super('mainmap')
+        super('game')
     }
     preload()
 	{

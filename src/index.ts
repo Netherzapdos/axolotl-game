@@ -1,7 +1,12 @@
 
 import Phaser, { Physics } from "phaser";
-import Game from "./Game";
+
 import Preloader from "./Preloader";
+import Menu from "./Menu";
+import MenuCredits from "./components/menu_options/Credits";
+import Game from "./Game";
+
+
 
 const game = new Phaser.Game({
 	type: Phaser.AUTO,
@@ -10,9 +15,10 @@ const game = new Phaser.Game({
 	backgroundColor: "#000c1f",
 	parent: "game",
 	pixelArt: true,
+	antialias: false,
   
 	// Load our yet-to-be-created custom scene
-	scene: [Preloader, Game],
+	scene: [Preloader, Menu, MenuCredits, Game],
 	scale: {zoom: 2, parent: 'game', autoCenter: Phaser.Scale.CENTER_BOTH}, 
   
 	physics: {

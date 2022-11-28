@@ -9,6 +9,17 @@ export default class Preloader extends Phaser.Scene
 
     preload()
     {
+
+
+        // Main Menu
+        this.load.image('menu_art', 'images/menu/menu_art.jpg')
+        this.load.image('menu_button', 'images/menu/button.png')
+        this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
+   
+
+
+
+
         // Map
         this.load.image('tiles', 'images/tiles/sunny_tiles.png')
         this.load.tilemapTiledJSON('island', 'images/maps/island.json')
@@ -39,13 +50,12 @@ export default class Preloader extends Phaser.Scene
         // Axolotls
         this.load.spritesheet('wild_yellow', 'images/sprites/axolotls/wild_yellow_idle.png', 
             { frameWidth: 20, frameHeight: 20})
+
     }
 
     create()
     {
-        this.scene.start('mainmap')
-
-        // Sets camera bounds to map size to avoid black bars
+        this.scene.start('menu')
         
         
     }

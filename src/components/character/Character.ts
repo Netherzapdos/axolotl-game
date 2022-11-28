@@ -10,7 +10,7 @@ export default class Character {
 	rightStatus!: boolean; 
 	leftStatus!: boolean; 
 
-	constructor(scene: any, x: number, y: number) 
+	constructor(scene: Phaser.Scene, x: number, y: number) 
 	{
 		this.char = scene.matter.add.sprite(x, y, 'character')	// Declare char in this class
 		this.cam = scene.cameras.main;	// Declare cam in this class

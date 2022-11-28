@@ -1,9 +1,14 @@
+@font-face {
+    font-family: PressStart2P; 
+    src: url('public/fonts/PressStart2P-Regular.ttf');
+}
+
 body {
     background-color: rgb(39, 81, 129);
 }
 
 .title {
     color: aliceblue;
-    font-family: 'Press Start 2P', cursive;
+    font-family: PressStart2P, cursive;
     text-align: center;
 }
