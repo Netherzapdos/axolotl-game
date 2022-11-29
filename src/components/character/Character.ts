@@ -22,9 +22,7 @@ export default class Character {
 			'left': Phaser.Input.Keyboard.KeyCodes.A,
 			'shift': Phaser.Input.Keyboard.KeyCodes.SHIFT
 		})
-		var rightStatus: boolean = false; // Has to be placed in here and not in move() below because move() is placed
-		var leftStatus: boolean = false;  // in update() in MainMap, which means right/leftStatus will always be refreshed as false,
-										  // so booleans won't work because it will stay as false each time move() is called.
+		
 	}
 
 
