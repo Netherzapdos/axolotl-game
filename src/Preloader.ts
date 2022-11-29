@@ -9,17 +9,13 @@ export default class Preloader extends Phaser.Scene
 
     preload()
     {
-
-
         // Main Menu
         this.load.image('menu_art', 'images/menu/menu_art.jpg')
         this.load.image('menu_button', 'images/menu/button.png')
         this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
+        this.load.image('credits_modal', '/images/menu/credits_modal.png')
    
-
-
-
-
+        
         // Map
         this.load.image('tiles', 'images/tiles/sunny_tiles.png')
         this.load.tilemapTiledJSON('island', 'images/maps/island.json')

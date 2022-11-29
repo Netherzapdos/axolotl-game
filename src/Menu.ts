@@ -131,7 +131,7 @@ export default class Menu extends Phaser.Scene
 
 		// Call different functions depending on what the current button is
 		if (button == this.buttons[0]) {this.scene.start('game');}
-		else if (button == this.buttons[1]) {window.open('http://google.com');}
+		else if (button == this.buttons[1]) {window.open('https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178_4x3.jpg');}
 		else if (button == this.buttons[2]) {this.scene.start('menu_credits');}
 	}
 
@@ -140,9 +140,11 @@ export default class Menu extends Phaser.Scene
 		{
 			
 		const pressUp = Phaser.Input.Keyboard.JustDown(this.cursors.up);
-		const pressUpW = Phaser.Input.Keyboard.JustDown(this.keyboard.up)
+		const pressUpW = Phaser.Input.Keyboard.JustDown(this.keyboard.up);
+
 		const pressDown = Phaser.Input.Keyboard.JustDown(this.cursors.down);
 		const pressDownS = Phaser.Input.Keyboard.JustDown(this.keyboard.down);
+		
 		const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 			
 			if (pressUp || pressUpW)
