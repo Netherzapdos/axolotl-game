@@ -6,6 +6,7 @@ export default class Menu extends Phaser.Scene
 	private buttonCursor!: Phaser.GameObjects.Image;
 	private selectedButtonIndex = 0
 	private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+	keyboard!: any;
 
     constructor()
     {
@@ -14,7 +15,16 @@ export default class Menu extends Phaser.Scene
 	
 	init()
 	{
+		// Declare cursors
 		this.cursors = this.input.keyboard.createCursorKeys()
+
+		// Declare keyboard WASD
+        this.keyboard = this.input.keyboard.addKeys({
+			'right': Phaser.Input.Keyboard.KeyCodes.D,
+			'up': Phaser.Input.Keyboard.KeyCodes.W,
+			'down': Phaser.Input.Keyboard.KeyCodes.S,
+			'left': Phaser.Input.Keyboard.KeyCodes.A,
+        })
 	}
   
     create() 
@@ -71,19 +81,6 @@ export default class Menu extends Phaser.Scene
 																	// to the array when user comes back to this scene (because you're in create())
 																	// Best to make it static like this.
 
-	
-
-		// Call functions when buttons are pressed
-		// playButton.on('pressed', () => this.scene.start('game'))
-		// settingsButton.on('pressed', () => window.open('http://google.com') )
-		// creditsButton.on('pressed', () => this.scene.start('menu_credits'))
-
-		// // Remove event after button pressed
-		// this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {playButton.off('pressed')})
-		// this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {settingsButton.off('pressed')})
-		// this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {creditsButton.off('pressed')})
-
-
 
 		// Default selected button will be `Play` button
 		this.selectButton(0); 
@@ -132,9 +129,7 @@ export default class Menu extends Phaser.Scene
 		// Get the currently selected button
 		const button = this.buttons[this.selectedButtonIndex]
 
-		// Emit the 'selected' event for button const
-		// button.emit('pressed')
-
+		// Call different functions depending on what the current button is
 		if (button == this.buttons[0]) {this.scene.start('game');}
 		else if (button == this.buttons[1]) {window.open('http://google.com');}
 		else if (button == this.buttons[2]) {this.scene.start('menu_credits');}
@@ -144,15 +139,17 @@ export default class Menu extends Phaser.Scene
 	update() 
 		{
 			
-		const upJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up)
-		const downJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.down)
+		const pressUp = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+		const pressUpW = Phaser.Input.Keyboard.JustDown(this.keyboard.up)
+		const pressDown = Phaser.Input.Keyboard.JustDown(this.cursors.down);
+		const pressDownS = Phaser.Input.Keyboard.JustDown(this.keyboard.down);
 		const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 			
-			if (upJustPressed)
+			if (pressUp || pressUpW)
 			{
 				this.selectNextButton(-1)
 			}
-			else if (downJustPressed)
+			else if (pressDown || pressDownS)
 			{
 				this.selectNextButton(1)
 			}
