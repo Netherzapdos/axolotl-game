@@ -19,7 +19,8 @@ export default class Game extends Phaser.Scene
      
     }
   
-    create() {
+    create() 
+	{
 
 	// Create Map
 		this.map = new Map(this); 
@@ -32,13 +33,15 @@ export default class Game extends Phaser.Scene
 	// Create Axolotl
 		var yellowAxl = new Axolotl(this, 540, 450); // Declare axl in this scene and pass details to Axolotls Class
 		yellowAxl.playAnim('wild_yellow', 'axl_idle', 0, 5);	// Play animation
+
+		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
 		
 
-}
+	}
 
 
-update() 
+	update() 
 	{
-	this.char.move(); 
-  	}
+		this.char.move(); 
+	}
 }
