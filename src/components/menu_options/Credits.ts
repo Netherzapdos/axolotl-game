@@ -4,10 +4,11 @@ export default class MenuCredits extends Phaser.Scene
 {
 
     cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-    private buttons: Phaser.GameObjects.Image[] = []
-    selectedButton = 0
 
+    private buttons: Phaser.GameObjects.Image[] = []
     backButton!: Phaser.GameObjects.Image
+    selectedButton = 0
+    
 
     constructor() {
         super('menu_credits')
@@ -15,7 +16,9 @@ export default class MenuCredits extends Phaser.Scene
 
     init() 
     {
+        // Declare arrow keys
         this.cursors = this.input.keyboard.createCursorKeys()
+
     }
     
     create() 
@@ -36,16 +39,25 @@ export default class MenuCredits extends Phaser.Scene
                 .setFontFamily('PressStart2P')
                 .setResolution(5); 
 
+        const creditMsg = this.add.image(width * 0.5, height * 0.5, 'credits_modal')
+            .setScale(2)
+
+            this.add.text(creditMsg.x, creditMsg.y, 'Nothing to see here')
+                .setOrigin(0.5)
+                .setFontSize(8)
+                .setFontFamily('PressStart2P')
+                .setResolution(5); 
+                this.add.text(creditMsg.x, creditMsg.y + 10, 'o.o')
+                .setOrigin(0.5)
+                .setFontSize(8)
+                .setFontFamily('PressStart2P')
+                .setResolution(5); 
+
+
         
 
         // Add buttons to buttons[] array
         this.buttons = [backButton]; 
-
-        // // Call functions when buttons are pressed
-        // backButton.on('pressed', () => {this.scene.start('menu')})
-
-        // // Reset 'pressed' event
-        // this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {backButton.off('selected')})
 
 
 
@@ -93,17 +105,9 @@ export default class MenuCredits extends Phaser.Scene
     {
         // Get which button is currently selected
         const currentButton = this.buttons[this.selectedButton];
-
-        // Make a special event only for const button
-            // currentButton.emit('pressed')
-
+        
+        // Call a function when a specific button is pressed
         if (currentButton == this.buttons[0]) {this.scene.start('menu');}
-
-        // Call functions when buttons are pressed
-        // currentButton.on('pressed', () => {this.scene.start('menu')})
-
-        // // Reset 'pressed' event
-        // this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {currentButton.off('selected')})     
     }
 
 
