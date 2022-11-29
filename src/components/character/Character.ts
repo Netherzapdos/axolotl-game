@@ -12,9 +12,16 @@ export default class Character {
 
 	constructor(scene: Phaser.Scene, x: number, y: number) 
 	{
-		this.char = scene.matter.add.sprite(x, y, 'character')	// Declare char in this class
-		this.cam = scene.cameras.main;	// Declare cam in this class
-		this.cursors = scene.input.keyboard.createCursorKeys();	// Declare cursors in this class
+
+		// Declare char in this class
+		this.char = scene.matter.add.sprite(x, y, 'character'); 
+		
+			
+		// Declare cam in this class
+		this.cam = scene.cameras.main;	
+
+		// Declare cursors in this class
+		this.cursors = scene.input.keyboard.createCursorKeys();	
 		this.keyboard = scene.input.keyboard.addKeys({
 			'right': Phaser.Input.Keyboard.KeyCodes.D,
 			'up': Phaser.Input.Keyboard.KeyCodes.W,
@@ -91,9 +98,11 @@ export default class Character {
 				repeat: -1
 		})
 		this.char.anims.play('idle', true);		// Plays idle animations by default
-		this.char.setCircle(4); 	// Sets hitbox to circle
+		this.char.setCircle(5); 	// Sets hitbox to circle
+		this.char.setOrigin(0.5, 0.6)
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
+		
 
 		
 		
