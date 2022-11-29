@@ -4,7 +4,23 @@ export default class Axolotl {
 
     constructor(scene: any, x: number, y: number) 
     { 
+
+       
         this.axl = scene.matter.add.sprite(x, y)  // Declare this.axl in this class
+
+          // Make it so that hovering over the axl will change the hitbox to pixel perfect & change cursor to chat_cursor
+          this.axl.setInteractive(
+            { 
+            pixelPerfect: true, 
+            cursor: 'url(/images/cursors/chat_cursor.cur), pointer', 
+            }
+          ); 
+
+            this.axl.on('pointerdown', () => console.log('yo'))
+
+
+        
+    
     }
 
     playAnim(spriteSheetKey: string, animationKey: string, start: number, end: number) 
