@@ -10,10 +10,12 @@ export default class Preloader extends Phaser.Scene
     preload()
     {
         // Main Menu
+        this.load.image('menu_logo', '/images/menu/menu_logo.png')
         this.load.image('menu_art', 'images/menu/menu_art.jpg')
         this.load.image('menu_button', 'images/menu/button.png')
         this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
         this.load.image('credits_modal', '/images/menu/credits_modal.png')
+        
    
         
         // Map
@@ -25,7 +27,7 @@ export default class Preloader extends Phaser.Scene
         this.load.spritesheet('char_idle', 'images/sprites/character/char_idle.png', 
             { frameWidth: 16, frameHeight: 32}
         );
-        this.load.spritesheet('char_idle_left', 'images/sprites/character/char_idle2.png',
+        this.load.spritesheet('char_idle_left', 'images/sprites/character/char_idle_left.png',
             { frameWidth: 16, frameHeight: 32 }
         );
         this.load.spritesheet('char_walking_right', 'images/sprites/character/char_walking_right.png', 
@@ -51,8 +53,7 @@ export default class Preloader extends Phaser.Scene
 
     create()
     {
+        // Starts the scene
         this.scene.start('menu')
-        
-        
     }
 }
