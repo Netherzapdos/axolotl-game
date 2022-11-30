@@ -32,12 +32,17 @@ export default class MenuCredits extends Phaser.Scene
 
         const backButton = this.add.image(width * 0.10, height * 0.90, 'menu_button')
             .setScale(2, 3)
+            .setInteractive();
 
             this.add.text(backButton.x, backButton.y, 'Back')
                 .setOrigin(0.5)
                 .setFontSize(8)
                 .setFontFamily('PressStart2P')
                 .setResolution(5); 
+
+            backButton.on('pointerover', () => {backButton.setTint(0x66ff7f); this.selectedButton = 0}); 
+			backButton.on('pointerout', () => {backButton.setTint(0xffffff)});
+			backButton.on('pointerdown', () => {this.confirmSelection()});
 
         const creditMsg = this.add.image(width * 0.5, height * 0.5, 'credits_modal')
             .setScale(2)
@@ -59,46 +64,7 @@ export default class MenuCredits extends Phaser.Scene
         // Add buttons to buttons[] array
         this.buttons = [backButton]; 
 
-
-
-        // Set default button
-        this.selectButton(0);
         
-    }
-
-
-    selectButton(buttonNum: number)
-    {
-        // Get currently selected number
-        const currentButton = this.buttons[this.selectedButton]
-            
-
-        // Make currently selected button white after next button has been selected
-        currentButton.setTint(0xffffff)
-
-        // Get newly selected button through buttonNum
-        const nextButton = this.buttons[buttonNum]
-
-        // Make next selected button color green
-        nextButton.setTint(0x66ff7f)
-
-        this.selectedButton = buttonNum;
-    }
-
-    selectNextButton(num = 1)
-    {
-        let index = this.selectedButton + num
-
-        if (index >= this.buttons.length)
-		{
-			index = 0
-		}
-		else if (index < 0)
-		{
-			index = this.buttons.length - 1
-		}
-
-        this.selectButton(index)
     }
 
     confirmSelection()

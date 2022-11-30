@@ -4,7 +4,7 @@ export default class Menu extends Phaser.Scene
 {
 	private buttons: Phaser.GameObjects.Image[] = []
 	private buttonCursor!: Phaser.GameObjects.Image;
-	private selectedButtonIndex = 0
+	private selectedButton = 0
 	private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 	keyboard!: any;
 
@@ -32,40 +32,65 @@ export default class Menu extends Phaser.Scene
 		// Add game width and height
 		const { width, height } = this.scale
 
+		// Add Menu Logo
+		const menuLogo = this.add.image(width * 0.5, height * 0.30, 'menu_logo')
+			.setScale(0.3)
+			.setDepth(1);
+
+			// Add Animation to Menu Logo
+			this.tweens.add({
+				targets: menuLogo,
+				y: height * 0.30 + 15, 
+				duration: 1400,
+				ease: Phaser.Math.Easing.Quadratic.InOut,  
+				yoyo: true,
+				loop: -1, 
+				delay: 0
+			})
+
 		// Add Menu Artwork
 		this.add.image(width * 0.5, height * 0.5, 'menu_art')
 			.setScale(0.366);
 
-		// Add Menu Cursor
-		this.buttonCursor = this.add.image(0, 0, 'menu_cursor')
-			.setDepth(1)
+		// Create Custom Cursor/Mouse Pointer
+		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
 
 
 
 		// Play button
 		const playButton = this.add.image(width * 0.5, height * 0.65, 'menu_button')
-			.setScale(3);
+			.setScale(3)
+			.setInteractive();
 		
 			this.add.text(playButton.x, playButton.y, 'Play') 
 				.setOrigin(0.5)
 				.setFontSize(8)
 				.setFontFamily('PressStart2P')
 				.setResolution(5); 
+
+			playButton.on('pointerover', () => {playButton.setTint(0x66ff7f); this.selectedButton = 0}); 
+			playButton.on('pointerout', () => {playButton.setTint(0xffffff)});
+			playButton.on('pointerdown', () => {this.confirmSelection()});
 			
 		// Settings button
 		const settingsButton = this.add.image(playButton.x, playButton.y + playButton.displayHeight + 10, 'menu_button')
-			.setDisplaySize(150, 50)
-			.setScale(3); 
+			.setScale(3)
+			.setInteractive(); 
 	
 			this.add.text(settingsButton.x, settingsButton.y, 'Settings')
 				.setOrigin(0.5)
 				.setFontSize(8)
 				.setFontFamily('PressStart2P')
 				.setResolution(5); 
+
+			settingsButton.on('pointerover', () => {settingsButton.setTint(0x66ff7f); this.selectedButton = 1}); 
+			settingsButton.on('pointerout', () => {settingsButton.setTint(0xffffff)});
+			settingsButton.on('pointerdown', () => {this.confirmSelection()});
 		
 		// Credits button
 		const creditsButton = this.add.image(settingsButton.x, settingsButton.y + settingsButton.displayHeight + 10, 'menu_button')
 			.setScale(3)
+			.setInteractive(); 
 	
 			this.add.text(creditsButton.x, creditsButton.y, 'Credits')
 				.setOrigin(0.5)
@@ -73,7 +98,9 @@ export default class Menu extends Phaser.Scene
 				.setFontFamily('PressStart2P')
 				.setResolution(5);
 
-
+			creditsButton.on('pointerover', () => {creditsButton.setTint(0x66ff7f); this.selectedButton = 2}); 
+			creditsButton.on('pointerout', () => {creditsButton.setTint(0xffffff)});
+			creditsButton.on('pointerdown', () => {this.confirmSelection()});
 	
 		// Add buttons to array index
 		this.buttons = [playButton, settingsButton, creditsButton]; // Should declare array with buttons already. Using .push to individually
@@ -81,16 +108,12 @@ export default class Menu extends Phaser.Scene
 																	// to the array when user comes back to this scene (because you're in create())
 																	// Best to make it static like this.
 
-
-		// Default selected button will be `Play` button
-		this.selectButton(0); 
-
 	}
 
 	selectButton(buttonNum: number)
 	{
 		// Get the currently selected button
-		const currentButton = this.buttons[this.selectedButtonIndex]
+		const currentButton = this.buttons[this.selectedButton]
 
 		// Set currently selected button to white tint
 		currentButton.setTint(0xffffff)
@@ -101,18 +124,14 @@ export default class Menu extends Phaser.Scene
 		// Set newly selected button to green tint
 		button.setTint(0x66ff7f)
 
-		// Set cursor image to right side of button image
-		this.buttonCursor.x = button.x + button.displayWidth * 0.5;
-		this.buttonCursor.y = button.y + 10
-
 		// Store the new selected button index
-		this.selectedButtonIndex = buttonNum;
+		this.selectedButton = buttonNum;
 	}
 
 	selectNextButton(change = 1)
 	{
 		// Sets up the up/down selection between buttons
-		let index = this.selectedButtonIndex + change
+		let index = this.selectedButton + change
 
 		if (index >= this.buttons.length)
 		{
@@ -128,7 +147,7 @@ export default class Menu extends Phaser.Scene
 	confirmSelection()
 	{
 		// Get the currently selected button
-		const currentButton = this.buttons[this.selectedButtonIndex]
+		const currentButton = this.buttons[this.selectedButton]
 
 		// Call different functions depending on what the current button is
 		if (currentButton == this.buttons[0]) {this.scene.start('game');}
