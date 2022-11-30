@@ -17,7 +17,7 @@ const game = new Phaser.Game({
 	pixelArt: true,
 	antialias: false,
   
-	// Load our yet-to-be-created custom scene
+	// Load scenes
 	scene: [Preloader, Menu, MenuCredits, Game],
 	scale: {zoom: 2, parent: 'game', autoCenter: Phaser.Scale.CENTER_BOTH}, 
   

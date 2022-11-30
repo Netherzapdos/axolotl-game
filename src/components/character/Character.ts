@@ -16,7 +16,6 @@ export default class Character {
 		// Declare char in this class
 		this.char = scene.matter.add.sprite(x, y, 'character'); 
 		
-			
 		// Declare cam in this class
 		this.cam = scene.cameras.main;	
 
@@ -32,7 +31,7 @@ export default class Character {
 		
 	}
 
-
+	// Collection of player animations
 	anims() 
 	{
 		this.char.anims.create({
@@ -48,7 +47,7 @@ export default class Character {
 		this.char.anims.create({
 			key: 'idle2',
 			frames: this.char.anims.generateFrameNumbers(
-				'char_idle2', { 
+				'char_idle_left', { 
 					start: 0, 
 					end: 8
 				}),
@@ -99,23 +98,24 @@ export default class Character {
 		})
 		this.char.anims.play('idle', true);		// Plays idle animations by default
 		this.char.setCircle(5); 	// Sets hitbox to circle
-		this.char.setOrigin(0.5, 0.6)
+		this.char.setOrigin(0.5, 0.6)	// Sets character placement relative to hitbox
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
-		
 
 		
 		
 	}
 
-
+	
+	// Function that handles player movement
 	move() 
 	{
 		this.speed = 0.20;	
 		var runSpeed = 0.45;	
 		this.playerSpeed = new Phaser.Math.Vector2; 
 		
-	// Declare cursors
+		
+		// Declare cursors
 		var upCursor = this.cursors.up; 
 		var leftCursor = this.cursors.left; 
 		var downCursor = this.cursors.down;
@@ -136,12 +136,6 @@ export default class Character {
 		var upLeftCursor = upCursor.isDown && leftCursor.isDown; 
 		var downRightCursor = downCursor.isDown && rightCursor.isDown;
 		var downLeftCursor = downCursor.isDown && leftCursor.isDown;
-
-		// // If cursors is not existing OR char is not existing, do nothing
-		// if (!this.cursors || !this.char)
-		// {
-		// 	return
-		// }
 
 		// Prevents players from abruptly moving the opposite direction when holding the other direction
 		if (rightCursor.isDown && leftCursor.isDown) {return}
@@ -165,7 +159,6 @@ export default class Character {
 			this.leftStatus = false; 
 			 
 		} 
-		
 		// Left
 		else if (leftCursor.isDown || A.isDown)
 		{	 
@@ -299,7 +292,25 @@ export default class Character {
 		this.playerSpeed.normalize();	// Had to be placed above scale to work
 		this.playerSpeed.scale(this.speed); 	// Uses const speed as reference for value
 		this.char.setVelocity(this.playerSpeed.x, this.playerSpeed.y);	// Velocity is tied to const playerSpeed.x & .y
+
+		
 	}
+
+	// Function that provides X position of Character
+	getPositionX()
+	{
+		return (
+			this.char.x
+		)
+	}
+	// Function that provides Y position of Character
+	getPositionY()
+	{
+		return (
+			this.char.y
+		)
+	}
+	
 
 
 

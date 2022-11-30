@@ -111,6 +111,7 @@ export default class Menu extends Phaser.Scene
 
 	selectNextButton(change = 1)
 	{
+		// Sets up the up/down selection between buttons
 		let index = this.selectedButtonIndex + change
 
 		if (index >= this.buttons.length)
@@ -127,12 +128,12 @@ export default class Menu extends Phaser.Scene
 	confirmSelection()
 	{
 		// Get the currently selected button
-		const button = this.buttons[this.selectedButtonIndex]
+		const currentButton = this.buttons[this.selectedButtonIndex]
 
 		// Call different functions depending on what the current button is
-		if (button == this.buttons[0]) {this.scene.start('game');}
-		else if (button == this.buttons[1]) {window.open('https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178_4x3.jpg');}
-		else if (button == this.buttons[2]) {this.scene.start('menu_credits');}
+		if (currentButton == this.buttons[0]) {this.scene.start('game');}
+		else if (currentButton == this.buttons[1]) {window.open('https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178_4x3.jpg');}
+		else if (currentButton == this.buttons[2]) {this.scene.start('menu_credits');}
 	}
 
 

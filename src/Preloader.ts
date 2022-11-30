@@ -25,7 +25,7 @@ export default class Preloader extends Phaser.Scene
         this.load.spritesheet('char_idle', 'images/sprites/character/char_idle.png', 
             { frameWidth: 16, frameHeight: 32}
         );
-        this.load.spritesheet('char_idle2', 'images/sprites/character/char_idle2.png',
+        this.load.spritesheet('char_idle_left', 'images/sprites/character/char_idle2.png',
             { frameWidth: 16, frameHeight: 32 }
         );
         this.load.spritesheet('char_walking_right', 'images/sprites/character/char_walking_right.png', 
