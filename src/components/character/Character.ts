@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+ 
 
 export default class Character {
 	char: Phaser.Physics.Matter.Sprite;		// Global declarations and types
@@ -9,13 +10,17 @@ export default class Character {
 	keyboard: any;
 	rightStatus!: boolean; 
 	leftStatus!: boolean; 
+	
+	
+	
 
 	constructor(scene: Phaser.Scene, x: number, y: number) 
-	{
-
-		// Declare char in this class
-		this.char = scene.matter.add.sprite(x, y, 'character'); 
+	{	
 		
+		
+		// Declare char in this class
+		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' }); 
+
 		// Declare cam in this class
 		this.cam = scene.cameras.main;	
 
@@ -97,13 +102,9 @@ export default class Character {
 				repeat: -1
 		})
 		this.char.anims.play('idle', true);		// Plays idle animations by default
-		this.char.setCircle(5); 	// Sets hitbox to circle
-		this.char.setOrigin(0.5, 0.6)	// Sets character placement relative to hitbox
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
 
-		
-		
 	}
 
 	
@@ -292,6 +293,7 @@ export default class Character {
 		this.playerSpeed.normalize();	// Had to be placed above scale to work
 		this.playerSpeed.scale(this.speed); 	// Uses const speed as reference for value
 		this.char.setVelocity(this.playerSpeed.x, this.playerSpeed.y);	// Velocity is tied to const playerSpeed.x & .y
+		
 
 		
 	}
@@ -309,6 +311,26 @@ export default class Character {
 		return (
 			this.char.y
 		)
+	}
+
+	getSensors(scene: Phaser.Scene)
+	{
+		var Bodies = scene.matter.bodies
+
+		// Set hitboxes for the character
+		var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5)
+		var circleSensor = Bodies.circle(this.char.x, this.char.y, 50, { isSensor: true, label: 'playerSensor' })
+
+		// Create a sort of group of hitboxes
+		//@ts-ignore
+		var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+			parts: [ circlePhysics, circleSensor ],
+			inertia: Infinity
+		});
+	
+		// Make the character use the new group of hitboxes
+		this.char.setExistingBody(compoundBody); 
+		this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
 	}
 	
 
