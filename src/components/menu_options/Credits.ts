@@ -58,13 +58,6 @@ export default class MenuCredits extends Phaser.Scene
                 .setFontFamily('PressStart2P')
                 .setResolution(5); 
 
-
-        
-
-        // Add buttons to buttons[] array
-        this.buttons = [backButton]; 
-
-        
     }
 
     confirmSelection()
@@ -74,17 +67,6 @@ export default class MenuCredits extends Phaser.Scene
         
         // Call a function when a specific button is pressed
         if (currentButton == this.buttons[0]) {this.scene.start('menu');}
-    }
-
-
-    update()
-    {
-        const space = Phaser.Input.Keyboard.JustDown(this.cursors.space)
-
-        if (space)
-        {
-            this.confirmSelection(); 
-        }
     }
 
 }

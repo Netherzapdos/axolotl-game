@@ -157,27 +157,7 @@ export default class Menu extends Phaser.Scene
 
 
 	update() 
-		{
-			
-		const pressUp = Phaser.Input.Keyboard.JustDown(this.cursors.up);
-		const pressUpW = Phaser.Input.Keyboard.JustDown(this.keyboard.up);
+	{
 
-		const pressDown = Phaser.Input.Keyboard.JustDown(this.cursors.down);
-		const pressDownS = Phaser.Input.Keyboard.JustDown(this.keyboard.down);
-		
-		const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
-			
-			if (pressUp || pressUpW)
-			{
-				this.selectNextButton(-1)
-			}
-			else if (pressDown || pressDownS)
-			{
-				this.selectNextButton(1)
-			}
-			else if (spaceJustPressed)
-			{
-				this.confirmSelection()
-			}
-		}
 	}
+}
