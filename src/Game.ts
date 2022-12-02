@@ -9,6 +9,8 @@ export default class Game extends Phaser.Scene
 	map!: Map;
 	axl!: Axolotl; 
 	charSensors!: void; 
+	hitman!: Phaser.GameObjects.Sprite;
+
 
     constructor()
     {
@@ -27,10 +29,8 @@ export default class Game extends Phaser.Scene
 	// Create character
 		this.char = new Character(this, 440, 340);	// Classes should be declared with "this.x" first, 
 		this.char.anims(); 							// then declare the variable at the top of this scene (sample for char above)
-													// this allows the Class to be used in global scope.										
-		this.charSensors = this.char.getSensors(this);
+													// this allows the Class to be used in global scope.									
 													
-
 	// Create Axolotl
 		this.axl = new Axolotl(this, 540, 450); 			// Declare axl in this scene and pass details to Axolotls Class
 		this.axl.playAnim('wild_yellow', 'axl_idle', 0, 5);	// Play animation
@@ -38,6 +38,21 @@ export default class Game extends Phaser.Scene
 
 	// Create Custom Cursor/Mouse Pointer
 		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
+
+	// NPC Test
+		this.hitman = this.add.sprite(340, 340, 'chicken_hitman')
+			this.hitman.anims.create({
+				key: 'idle',
+				frames: this.hitman.anims.generateFrameNumbers(
+					'chicken_hitman', { 
+						start: 0, 
+						end: 8
+					}),
+					frameRate: 15,
+					repeat: -1
+			})
+			this.hitman.anims.play('idle'); 
+
 	}
 	
 

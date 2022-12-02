@@ -33,6 +33,28 @@ export default class Character {
 			'left': Phaser.Input.Keyboard.KeyCodes.A,
 			'shift': Phaser.Input.Keyboard.KeyCodes.SHIFT
 		})
+
+		// Setup Sensors for the Character
+			var Bodies = scene.matter.bodies
+
+			// Set hitboxes for the character
+			var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5);
+			var playerSensor = Bodies.circle(this.char.x, this.char.y, 40, { isSensor: true, label: 'playerSensor' });
+			var farSensor = Bodies.circle(this.char.x, this.char.y, 100, { isSensor: true, label: 'farSensor' });
+
+			// Create a sort of group of hitboxes
+			//@ts-ignore
+			var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+				parts: [ circlePhysics, playerSensor ],
+				inertia: Infinity
+			});
+		
+			// Make the character use the new group of hitboxes
+			this.char.setExistingBody(compoundBody); 
+			this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
+
+			// **In the future if you wish to dynamically change the sensor settings, move this to a separate function, and
+			// whenver you call that function, pass a new number for the sensor distance setting. That way it can change depending on passed param
 		
 	}
 
@@ -104,6 +126,9 @@ export default class Character {
 		this.char.anims.play('idle', true);		// Plays idle animations by default
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
+
+
+		
 
 	}
 
@@ -315,22 +340,10 @@ export default class Character {
 
 	getSensors(scene: Phaser.Scene)
 	{
-		var Bodies = scene.matter.bodies
+		
 
-		// Set hitboxes for the character
-		var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5)
-		var circleSensor = Bodies.circle(this.char.x, this.char.y, 50, { isSensor: true, label: 'playerSensor' })
 
-		// Create a sort of group of hitboxes
-		//@ts-ignore
-		var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-			parts: [ circlePhysics, circleSensor ],
-			inertia: Infinity
-		});
-	
-		// Make the character use the new group of hitboxes
-		this.char.setExistingBody(compoundBody); 
-		this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
+		// ** MAYBE DON'T NEED TO PUT THIS IN A FUNCTION BUT PUT IN CREATE() ITSELF
 	}
 	
 
