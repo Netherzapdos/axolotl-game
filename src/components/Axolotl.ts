@@ -64,8 +64,9 @@ export default class Axolotl {
 			
               // We only want the sensors
               if (pairs[i].isSensor)
+              
               {
-                if (bodyB.label === 'axolotl') 
+                if (bodyA.label === 'playerSensor' && bodyB.label === 'axolotl' ) 
                 {
                   console.log('axolotl true'); 
                   
@@ -99,7 +100,7 @@ export default class Axolotl {
             // We only want the sensors
             if (pairs[i].isSensor)
             {
-              if (bodyB.label === 'axolotl') 
+              if ( bodyA.label === 'playerSensor' && bodyB.label === 'axolotl') 
               {
                 console.log('axolotl false'); 
                 proximityCheck = false;
