@@ -1,15 +1,23 @@
 import Phaser from "phaser";
-import Character from "./components/character/Character";
-import Axolotl from "./components/Axolotl";
 import Map from "./components/map/Map"
+
+import Character from "./components/character/Character";
+import Axolotl from "./components/axolotl/Axolotl";
+import ChickenMan from "./components/npcs/chickenman";
+
+
+import Modal from "./Modal";
 
 export default class Game extends Phaser.Scene 
 {
 	char!: Character;
 	map!: Map;
 	axl!: Axolotl; 
-	charSensors!: void; 
 	hitman!: Phaser.GameObjects.Sprite;
+	test: any;
+	chickenMan: ChickenMan;
+
+	
 
 
     constructor()
@@ -23,6 +31,9 @@ export default class Game extends Phaser.Scene
   
     create() 
 	{
+
+		const { width, height } = this.scale; 
+
 	// Create Map
 		this.map = new Map(this); 
 
@@ -32,26 +43,27 @@ export default class Game extends Phaser.Scene
 													// this allows the Class to be used in global scope.									
 													
 	// Create Axolotl
-		this.axl = new Axolotl(this, 540, 450); 			// Declare axl in this scene and pass details to Axolotls Class
+		this.axl = new Axolotl(this, 520, 450); 			// Declare axl in this scene and pass details to Axolotls Class
 		this.axl.playAnim('wild_yellow', 'axl_idle', 0, 5);	// Play animation
 		// ** Redo this setup to be similar to Character class **
 
 	// Create Custom Cursor/Mouse Pointer
 		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
 
-	// NPC Test
-		this.hitman = this.add.sprite(340, 340, 'chicken_hitman')
-			this.hitman.anims.create({
-				key: 'idle',
-				frames: this.hitman.anims.generateFrameNumbers(
-					'chicken_hitman', { 
-						start: 0, 
-						end: 8
-					}),
-					frameRate: 15,
-					repeat: -1
-			})
-			this.hitman.anims.play('idle'); 
+	// Chicken NPC
+		this.chickenMan = new ChickenMan(this);
+	
+
+
+	// Modal test
+	// this.test = new Modal(this, width * 0.5, height * 0.84)
+	// this.test.setName(this, 'Chicken Man')
+	// this.test.firstLine(this, "huh")
+	// this.test.secondLine(this, "what was that?")
+	// this.test.thirdLine(this, "Probs just the wind")
+	// this.test.fourthLine(this, "maybe...")
+	
+		
 
 	}
 	
