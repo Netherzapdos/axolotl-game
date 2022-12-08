@@ -19,6 +19,7 @@ export default class Character {
 		
 		
 		// Declare char in this class
+		//@ts-ignore
 		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' }); 
 
 		// Declare cam in this class
@@ -136,8 +137,8 @@ export default class Character {
 	// Function that handles player movement
 	move() 
 	{
-		this.speed = 0.20;	
-		var runSpeed = 0.45;	
+		this.speed = 0.15;	
+		var runSpeed = 0.35;	
 		this.playerSpeed = new Phaser.Math.Vector2; 
 		
 		
@@ -338,12 +339,17 @@ export default class Character {
 		)
 	}
 
-	getSensors(scene: Phaser.Scene)
+	getCamPositionX()
 	{
-		
-
-
-		// ** MAYBE DON'T NEED TO PUT THIS IN A FUNCTION BUT PUT IN CREATE() ITSELF
+		return (
+			this.cam.x
+		)
+	}
+	getCamPositionY()
+	{
+		return (
+			this.cam.y
+		)
 	}
 	
 
