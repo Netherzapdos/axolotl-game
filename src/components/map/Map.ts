@@ -2,7 +2,7 @@ export default class MainMap
 {
     map!: Phaser.Tilemaps.MapData; 
 
-    constructor(scene: any)
+    constructor(scene: Phaser.Scene)
     {
         const map = scene.make.tilemap({ key: 'island' });
         const tileset = map.addTilesetImage('spr_tileset_sunnysideworld', 'tiles');
