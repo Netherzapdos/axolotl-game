@@ -138,7 +138,7 @@ export default class Character {
 	move() 
 	{
 		this.speed = 0.15;	
-		var runSpeed = 0.35;	
+		var runSpeed = 0.30;	
 		this.playerSpeed = new Phaser.Math.Vector2; 
 		
 		
