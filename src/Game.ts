@@ -15,11 +15,9 @@ export default class Game extends Phaser.Scene
 	axl!: Axolotl; 
 	hitman!: Phaser.GameObjects.Sprite;
 	test: any;
-	chickenMan: ChickenMan;
+	chickenMan!: ChickenMan;
 
 	
-
-
     constructor()
     {
         super('game')
@@ -31,8 +29,6 @@ export default class Game extends Phaser.Scene
   
     create() 
 	{
-
-		const { width, height } = this.scale; 
 
 	// Create Map
 		this.map = new Map(this); 
@@ -53,18 +49,6 @@ export default class Game extends Phaser.Scene
 	// Chicken NPC
 		this.chickenMan = new ChickenMan(this);
 	
-
-
-	// Modal test
-	// this.test = new Modal(this, width * 0.5, height * 0.84)
-	// this.test.setName(this, 'Chicken Man')
-	// this.test.firstLine(this, "huh")
-	// this.test.secondLine(this, "what was that?")
-	// this.test.thirdLine(this, "Probs just the wind")
-	// this.test.fourthLine(this, "maybe...")
-	
-		
-
 	}
 	
 
