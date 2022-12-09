@@ -16,8 +16,9 @@ export default class Preloader extends Phaser.Scene
         this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
         this.load.image('credits_modal', '/images/menu/credits_modal.png')
         
-   
-        
+        // Modal Rex Plugin
+        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+
         // Map
         this.load.image('tiles', 'images/tiles/sunny_tiles.png')
         this.load.tilemapTiledJSON('island', 'images/maps/island.json')
@@ -49,11 +50,20 @@ export default class Preloader extends Phaser.Scene
         this.load.spritesheet('wild_yellow', 'images/sprites/axolotls/wild_yellow_idle.png', 
             { frameWidth: 20, frameHeight: 20})
 
+
+        // NPCs
+        this.load.spritesheet('chicken_man', 'images/sprites/npcs/chicken_hitman.png', 
+            { frameWidth: 14, frameHeight: 17 }
+        );
+        
+        // Modals
+        this.load.image('dialogue_modal', '/images/modals/dialogue_modal.png')
+
     }
 
     create()
     {
         // Starts the scene
-        this.scene.start('menu')
+        this.scene.start('game')
     }
 }
