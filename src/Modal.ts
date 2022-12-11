@@ -22,6 +22,7 @@ export default class Modal{
         this.gameX = gameX; 
         this.gameY = gameY;
         this.classOfObject = new objectClass();
+        console.log('modal called')
 
         this.modal = scene.add.image(gameX, gameY, 'dialogue_modal')
             .setDepth(2)
@@ -103,7 +104,7 @@ export default class Modal{
         })
     }
 
-    nextBtn(scene: Phaser.Scene, objectClass: any, firstLineNum: number, secondLineNum: number, thirdLineNum: number, fourthLineNum: number) // might be Phaser.Sprite
+    nextBtn(scene: Phaser.Scene, firstLineNum: number, secondLineNum: number, thirdLineNum: number, fourthLineNum: number) 
     {
         let firstNumAdd = firstLineNum + 4;
         let secondNumAdd = secondLineNum + 4;
@@ -114,8 +115,9 @@ export default class Modal{
         this.nextButton.on('pointerdown', () => {
             this.destroyAll();
 
-            var objectHandler = this.classOfObject
-                objectHandler.startDialogue(scene, firstNumAdd, secondNumAdd, thirdNumAdd, fourthNumAdd);
+
+              
+            this.classOfObject.startDialogue(scene, firstNumAdd, secondNumAdd, thirdNumAdd, fourthNumAdd)
         })
     }
 

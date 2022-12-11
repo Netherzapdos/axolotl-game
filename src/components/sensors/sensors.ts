@@ -50,9 +50,8 @@ export default class Sensor{
             })
             } else if (this.proximityCheck == true) 
             {
-                var objectHandler = this.classOfObject;
-
-                objectHandler.startDialogue(scene, 0, 1, 2, 3);
+                console.log('huh')
+                this.classOfObject.startDialogue(scene, 0, 1, 2, 3);
             }
         })
     }
@@ -71,10 +70,11 @@ export default class Sensor{
                 var bodyB = pairs[i].bodyB;
 
                 if (pairs[i].isSensor)
-
                 {
                     if (bodyA.label === 'playerSensor' && bodyB.label === objectSensorLabel)
                     {
+                        console.log(bodyA.label);
+                        console.log(bodyB.label); 
                         let withinRange = scene.add.text(objectVariable.x, objectVariable.y - 15, message )
                         .setOrigin(0.48)
                         .setTint()

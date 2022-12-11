@@ -131,7 +131,6 @@ export default class ChickenMan{
     
                 this.dialogue.nextBtn(scene, firstLineNum, secondLineNum, thirdLineNum, fourthLineNum); 
             }
-                
         } 
         else if (this.checkDialogueState == true)
         {
