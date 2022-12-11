@@ -15,13 +15,22 @@ export default class Axolotl {
 
         // Declare this.axl in this class
         //@ts-ignore
-        this.axl = scene.matter.add.sprite(x, y, 'axolotl', null, { label: 'axolotl', isStatic: true, circleRadius: 20 })
+        this.axl = scene.matter.add.sprite(x, y, 'axolotl', null, { isStatic: true })
             .setDepth(1);  
 
-          var axlSensor = new Sensor(Axolotl);
-              axlSensor.setChatCursor(this.axl); 
-              axlSensor.enterRange(scene, this.axl, 'axolotl', 'Heyo'); 
-              axlSensor.exitRange(scene, this.axl, 'axolotl', 'Bye bye!'); 
+            // Create custom sensors & hitboxes
+            var axlHitbox = Bodies.circle(this.axl.x, this.axl.y, 30, { isSensor: true, label: 'axolotlHitbox' })
+            var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+                parts: [axlHitbox],
+                inertia: Infinity,
+            });
+            this.axl.setExistingBody(compoundBody); 
+
+            // Create sensor interactions
+            var axlSensor = new Sensor(Axolotl);
+                axlSensor.setChatCursor(this.axl); 
+                axlSensor.enterRange(scene, this.axl, 'axolotlHitbox', 'Heyo'); 
+                axlSensor.exitRange(scene, this.axl, 'axolotlHitbox', 'Bye bye!'); 
     }
 
 
