@@ -16,9 +16,7 @@ export default class Preloader extends Phaser.Scene
         this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
         this.load.image('credits_modal', '/images/menu/credits_modal.png')
         
-        // Modal Rex Plugin
-        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
-
+        
         // Map
         this.load.image('tiles', 'images/tiles/sunny_tiles.png')
         this.load.tilemapTiledJSON('island', 'images/maps/island.json')
@@ -58,6 +56,8 @@ export default class Preloader extends Phaser.Scene
         
         // Modals
         this.load.image('dialogue_modal', '/images/modals/dialogue_modal.png')
+        this.load.image('modal_close_btn', '/images/modals/modal_close_btn.png')
+        this.load.image('modal_next_btn', '/images/modals/modal_next_btn.png')
 
     }
 
