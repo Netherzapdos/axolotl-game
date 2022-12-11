@@ -34,20 +34,24 @@ export default class Game extends Phaser.Scene
 		this.map = new Map(this); 
 
 	// Create character
-		this.char = new Character(this, 440, 340);	// Classes should be declared with "this.x" first, 
-		this.char.anims(); 							// then declare the variable at the top of this scene (sample for char above)
-													// this allows the Class to be used in global scope.									
+		this.char = new Character(this);	// Classes should be declared with "this.x" first, 
+		this.char.create(this, 440, 340);   // then declare the variable at the top of this scene (sample for char above)
+		this.char.anims(); 					// this allows the Class to be used in global scope.		
+																						
 													
 	// Create Axolotl
-		this.axl = new Axolotl(this, 520, 450); 			// Declare axl in this scene and pass details to Axolotls Class
-		this.axl.playAnim('wild_yellow', 'axl_idle', 0, 5);	// Play animation
-		// ** Redo this setup to be similar to Character class **
+		this.axl = new Axolotl(); 			// Declare axl in this scene and pass details to Axolotls Class
+		this.axl.create(this, 520, 450)
+		this.axl.anims('wild_yellow', 'axl_idle', 0, 5);	// Play animation
+		
 
 	// Create Custom Cursor/Mouse Pointer
 		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
 
 	// Chicken NPC
-		this.chickenMan = new ChickenMan(this);
+		this.chickenMan = new ChickenMan();
+		this.chickenMan.create(this); 
+		this.chickenMan.anims(); 
 	
 	}
 	

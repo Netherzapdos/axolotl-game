@@ -2,7 +2,7 @@ import Phaser from "phaser";
  
 
 export default class Character {
-	char: Phaser.Physics.Matter.Sprite;		// Global declarations and types
+	char!: Phaser.Physics.Matter.Sprite;		// Global declarations and types
 	cam: any;
 	speed!: number;
 	playerSpeed!: Phaser.Math.Vector2;
@@ -14,14 +14,8 @@ export default class Character {
 	
 	
 
-	constructor(scene: Phaser.Scene, x: number, y: number) 
+	constructor(scene: Phaser.Scene) 
 	{	
-		
-		
-		// Declare char in this class
-		//@ts-ignore
-		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' }); 
-
 		// Declare cam in this class
 		this.cam = scene.cameras.main;	
 
@@ -35,28 +29,38 @@ export default class Character {
 			'shift': Phaser.Input.Keyboard.KeyCodes.SHIFT
 		})
 
+		
+		
+	}
+
+	create(scene: Phaser.Scene, x: number, y: number)
+	{
+		// Declare char in this class
+		//@ts-ignore
+		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' }); 
+
 		// Setup Sensors for the Character
-			var Bodies = scene.matter.bodies
+		var Bodies = scene.matter.bodies
 
-			// Set hitboxes for the character
-			var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5);
-			var playerSensor = Bodies.circle(this.char.x, this.char.y, 40, { isSensor: true, label: 'playerSensor' });
-			var farSensor = Bodies.circle(this.char.x, this.char.y, 100, { isSensor: true, label: 'farSensor' });
+		// Set hitboxes for the character
+		var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5);
+		var playerSensor = Bodies.circle(this.char.x, this.char.y, 40, { isSensor: true, label: 'playerSensor' });
+		var farSensor = Bodies.circle(this.char.x, this.char.y, 100, { isSensor: true, label: 'farSensor' });
 
-			// Create a sort of group of hitboxes
-			//@ts-ignore
-			var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-				parts: [ circlePhysics, playerSensor ],
-				inertia: Infinity
-			});
-		
-			// Make the character use the new group of hitboxes
-			this.char.setExistingBody(compoundBody); 
-			this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
+		// Create a sort of group of hitboxes
+		//@ts-ignore
+		var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+			parts: [ circlePhysics, playerSensor ],
+			inertia: Infinity
+		});
+	
+		// Make the character use the new group of hitboxes
+		this.char.setExistingBody(compoundBody); 
+		this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
 
-			// **In the future if you wish to dynamically change the sensor settings, move this to a separate function, and
-			// whenver you call that function, pass a new number for the sensor distance setting. That way it can change depending on passed param
-		
+		// **In the future if you wish to dynamically change the sensor settings, move this to a separate function, and
+		// whenver you call that function, pass a new number for the sensor distance setting. That way it can change depending on passed param
+
 	}
 
 	// Collection of player animations

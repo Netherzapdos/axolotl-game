@@ -4,26 +4,30 @@ import Modal from "../../Modal";
 export default class Sensor{
 
     proximityCheck!: boolean
+    classOfObject: any;
 
-    constructor()
+    constructor(objectClass: any)
     {
         this.proximityCheck = false; // Don't delcare booleans in functions cause they get reset each time the function is called
+        this.classOfObject = new objectClass
     }
 
     // Disable interaction when too far & Create modal when inside
     // interactionRangeYesNoModal
-    interactionRangeDialogueModal(scene: Phaser.Scene, object: any, name: string, firstLine: string, secondLine: string, thirdLine: string, fourthLine: string)
+    startDialogue(scene: Phaser.Scene, objectVariable: any)
     {
-        const { width, height } = scene.scale;
 
-        object.on('pointerdown', () => 
+        objectVariable.on('pointerdown', () => 
         {
             if (this.proximityCheck == false) 
             {
+            let outsideRange = scene.add.text(objectVariable.x - 25, objectVariable.y - 15, 'Too far')
+                .setTint(0xff0000)
+                .setFontSize(8)
+                .setFontFamily('PressStart2P')
+                .setResolution(5);
             
-            console.log(this.proximityCheck)
-            let outsideRange = scene.add.text(object.x - 25, object.y - 15, 'Too far').setTint(0xff0000).setFontSize(8).setFontFamily('PressStart2P').setResolution(5);
-
+            // Add fade out
             scene.time.delayedCall(1000, () => {
                 scene.add.tween({
                     targets: outsideRange,
@@ -34,19 +38,15 @@ export default class Sensor{
             })
             } else if (this.proximityCheck == true) 
             {
-                let dialogue = new Modal(scene, width * 0.5, height * 0.86)
-                dialogue.setName(scene, name);
-                dialogue.firstLine(scene, firstLine);
-                dialogue.secondLine(scene, secondLine);
-                dialogue.thirdLine(scene, thirdLine);
-                dialogue.fourthLine(scene, fourthLine); 
+                var objectHandler = this.classOfObject;
 
+                objectHandler.startDialogue(scene, 0, 1, 2, 3);
             }
         })
     }
 
     // Play message when near
-    withinRangeMsg(scene: Phaser.Scene, object: any, objectSensorLabel: string, message: string)
+    enterRange(scene: Phaser.Scene, objectVariable: any, objectSensorLabel: string, message: string)
     {
         scene.matter.world.on('collisionstart', (event: any) => 
         {
@@ -63,8 +63,8 @@ export default class Sensor{
                 {
                     if (bodyA.label === 'playerSensor' && bodyB.label === objectSensorLabel)
                     {
-                        let withinRange = scene.add.text(object.x - 60, object.y - 15, message )
-                        .setOrigin(0)
+                        let withinRange = scene.add.text(objectVariable.x, objectVariable.y - 15, message )
+                        .setOrigin(0.48)
                         .setTint()
                         .setFontSize(8)
                         .setFontFamily('PressStart2P')
@@ -79,8 +79,6 @@ export default class Sensor{
                             })
                         })
                         this.proximityCheck = true;
-                        console.log('proximity true')
-                        console.log(this.proximityCheck)
                     }
                 }
             }
@@ -88,7 +86,7 @@ export default class Sensor{
     }
 
     // Play message when exits proximity
-    exitRangeMsg(scene: any, objectSensorLabel: string)
+    exitRange(scene: Phaser.Scene, objectVariable: any, objectSensorLabel: string, message: string)
     {
         scene.matter.world.on('collisionend', (event: any) => 
         {
@@ -103,9 +101,23 @@ export default class Sensor{
                 {
                     if (bodyA.label === 'playerSensor' && bodyB.label === objectSensorLabel)
                     {
+                        let exitRange = scene.add.text(objectVariable.x, objectVariable.y - 15, message )
+                        .setOrigin(0.48)
+                        .setTint()
+                        .setFontSize(8)
+                        .setFontFamily('PressStart2P')
+                        .setResolution(5);
+
+                        scene.time.delayedCall(1000, () => {
+                            scene.add.tween({
+                                targets: exitRange,
+                                alpha: 0,
+                                duration: 1000,
+                                ease: 'Power2'
+                            })
+                        })
+
                         this.proximityCheck = false;
-                        console.log('proximity false')
-                        console.log(this.proximityCheck)
                     }
                 }
             }
