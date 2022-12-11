@@ -2,11 +2,11 @@ import Phaser from "phaser";
 
 export default class Menu extends Phaser.Scene 
 {
-	private buttons: Phaser.GameObjects.Image[] = []
-	private buttonCursor!: Phaser.GameObjects.Image;
-	private selectedButton = 0
-	private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+	buttons: Phaser.GameObjects.Image[] = []
+	buttonCursor!: Phaser.GameObjects.Image;
+	selectedButton = 0
 	keyboard!: any;
+	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
     constructor()
     {
