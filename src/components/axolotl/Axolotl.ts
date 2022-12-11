@@ -17,16 +17,9 @@ export default class Axolotl {
         //@ts-ignore
         this.axl = scene.matter.add.sprite(x, y, 'axolotl', null, { label: 'axolotl', isStatic: true, circleRadius: 20 })
             .setDepth(1);  
- 
-            // Make it so that hovering over the axl will change the hitbox to pixel perfect & change cursor to chat_cursor
-            this.axl.setInteractive(
-            { 
-              pixelPerfect: true, 
-              cursor: 'url(/images/cursors/chat_cursor.cur), pointer', 
-            }
-          ); 
 
           var axlSensor = new Sensor(Axolotl);
+              axlSensor.setChatCursor(this.axl); 
               axlSensor.enterRange(scene, this.axl, 'axolotl', 'Heyo'); 
               axlSensor.exitRange(scene, this.axl, 'axolotl', 'Bye bye!'); 
     }

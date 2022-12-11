@@ -12,6 +12,18 @@ export default class Sensor{
         this.classOfObject = new objectClass
     }
 
+    setChatCursor(objectVariable: any)
+    {
+        // Change on-hover to chat cursor
+        objectVariable.setInteractive(
+            { 
+            pixelPerfect: true, 
+            cursor: 'url(/images/cursors/chat_cursor.cur), pointer', 
+            }
+        ); 
+    }
+
+
     // Disable interaction when too far & Create modal when inside
     // interactionRangeYesNoModal
     startDialogue(scene: Phaser.Scene, objectVariable: any)

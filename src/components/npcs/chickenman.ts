@@ -44,18 +44,10 @@ export default class ChickenMan{
 
         this.chickenMan = scene.matter.add.sprite(340, 340, 'chicken_man', null, { label: 'chickenMan', isStatic: true, circleRadius: 20 })
 
-
-            // Change on-hover to chat cursor
-            this.chickenMan.setInteractive(
-                { 
-                pixelPerfect: true, 
-                cursor: 'url(/images/cursors/chat_cursor.cur), pointer', 
-                }
-            ); 
-
             // Create proximity interactions
             var chickenSensor = new Sensor(ChickenMan);
-            
+
+                chickenSensor.setChatCursor(this.chickenMan); 
                 chickenSensor.startDialogue(scene, this.chickenMan);   
                 chickenSensor.enterRange(scene, this.chickenMan, 'chickenMan', 'Who are you?'); 
                 chickenSensor.exitRange(scene, this.chickenMan, 'chickenMan', null); 
