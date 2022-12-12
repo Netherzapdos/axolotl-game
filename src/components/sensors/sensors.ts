@@ -26,7 +26,7 @@ export default class Sensor{
 
     // Disable interaction when too far & Create modal when inside
     // interactionRangeYesNoModal
-    startDialogue(scene: Phaser.Scene, objectVariable: any)
+    initDialogue(scene: Phaser.Scene, objectVariable: any)
     {
 
         objectVariable.on('pointerdown', () => 
@@ -34,6 +34,7 @@ export default class Sensor{
             if (this.proximityCheck == false) 
             {
             let outsideRange = scene.add.text(objectVariable.x - 25, objectVariable.y - 15, 'Too far')
+                .setDepth(3)
                 .setTint(0xff0000)
                 .setFontSize(8)
                 .setFontFamily('PressStart2P')
@@ -76,6 +77,7 @@ export default class Sensor{
                         console.log(bodyA.label);
                         console.log(bodyB.label); 
                         let withinRange = scene.add.text(objectVariable.x, objectVariable.y - 15, message )
+                        .setDepth(3)
                         .setOrigin(0.48)
                         .setTint()
                         .setFontSize(8)
@@ -114,6 +116,7 @@ export default class Sensor{
                     if (bodyA.label === 'playerSensor' && bodyB.label === objectSensorLabel)
                     {
                         let exitRange = scene.add.text(objectVariable.x, objectVariable.y - 15, message )
+                        .setDepth(3)
                         .setOrigin(0.48)
                         .setTint()
                         .setFontSize(8)
