@@ -45,11 +45,14 @@ export default class Preloader extends Phaser.Scene
 
 
         // Axolotls
-        this.load.spritesheet('wild_yellow', 'images/sprites/axolotls/wild_yellow_idle.png', 
-            { frameWidth: 20, frameHeight: 20})
+        this.load.spritesheet('wild_yellow_idle', 'images/sprites/axolotls/wild_yellow_idle.png', 
+            { frameWidth: 20, frameHeight: 20});
 
 
         // NPCs
+        this.load.spritesheet('tamed_pink_idle', 'images/sprites/axolotls/tamed_pink_idle.png',
+            { frameWidth: 13, frameHeight: 10});
+
         this.load.spritesheet('chicken_man', 'images/sprites/npcs/chicken_hitman.png', 
             { frameWidth: 14, frameHeight: 17 }
         );
