@@ -62,6 +62,13 @@ export default class Preloader extends Phaser.Scene
         this.load.image('modal_close_btn', '/images/modals/modal_close_btn.png')
         this.load.image('modal_next_btn', '/images/modals/modal_next_btn.png')
 
+        // Controls
+        this.load.image('up_btn', '/images/controls/arrow_up.png');
+        this.load.image('down_btn', '/images/controls/arrow_down.png');
+        this.load.image('left_btn', '/images/controls/arrow_left.png');
+        this.load.image('right_btn', '/images/controls/arrow_right.png');
+        this.load.image('sprint_btn', '/images/controls/sprint.png')
+
     }
 
     create()

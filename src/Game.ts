@@ -33,7 +33,8 @@ export default class Game extends Phaser.Scene
 
 	// Create character
 		this.char = new Character(this);	// Classes should be declared with "this.x" first, 
-		this.char.create(this, 408, 490);   // then declare the variable at the top of this scene (sample for char above)
+		this.char.create(this, 408, 490);   // then declare the variable at the top of this scene 
+		this.char.mobileControls(this); 
 		this.char.anims(); 					// this allows the Class to be used in global scope.		
 																						
 													
@@ -46,8 +47,6 @@ export default class Game extends Phaser.Scene
 		this.nala.create(this, 330, 430, 10, 'nalaSensor');
 		this.nala.anims('tamed_pink_idle', 'axl_idle', 0, 1, 1.5); 
 		
-		
-
 	// Create Custom Cursor/Mouse Pointer
 		this.input.setDefaultCursor('url(/images/cursors/main_cursor.cur), pointer'); 
 

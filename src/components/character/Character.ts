@@ -5,14 +5,44 @@ export default class Character {
 	char!: Phaser.Physics.Matter.Sprite;		// Global declarations and types
 	cam: any;
 	speed!: number;
+	runSpeed!: number;
 	playerSpeed!: Phaser.Math.Vector2;
 	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;	
 	keyboard: any;
 	rightStatus!: boolean; 
 	leftStatus!: boolean; 
 	
+	upBtn!: Phaser.GameObjects.Image;
+	downBtn!: Phaser.GameObjects.Image;
+	leftBtn!: Phaser.GameObjects.Image;
+	rightBtn!: Phaser.GameObjects.Image;
+	sprintBtn!: Phaser.GameObjects.Image;
+	rightBtnDown!: boolean;
+	leftBtnDown!: boolean;
+	upBtnDown!: boolean;
+	downBtnDown!: boolean;
+	sprintBtnDown!: boolean;
+
+	upCursor!: Phaser.Input.Keyboard.Key;
+	leftCursor!: Phaser.Input.Keyboard.Key;
+	downCursor!: Phaser.Input.Keyboard.Key;
+	rightCursor!: Phaser.Input.Keyboard.Key;
+	W: any;
+	A: any;
+	S: any;
+	D: any;
+	WD: any;
+	WA: any;
+	SD: any;
+	SA: any;
+	shift: any;
+	upRightCursor: any;
+	upLeftCursor: any;
+	downRightCursor: any;
+	downLeftCursor: any;
 	
-	
+
+
 
 	constructor(scene: Phaser.Scene) 
 	{	
@@ -28,8 +58,6 @@ export default class Character {
 			'left': Phaser.Input.Keyboard.KeyCodes.A,
 			'shift': Phaser.Input.Keyboard.KeyCodes.SHIFT
 		})
-
-		
 		
 	}
 
@@ -37,14 +65,16 @@ export default class Character {
 	{
 		// Declare char in this class
 		//@ts-ignore
-		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' }); 
+		this.char = scene.matter.add.sprite(x, y, 'character', null, { label: 'character' })
+			.setDepth(2); 	
 
 		// Setup Sensors for the Character
 		var Bodies = scene.matter.bodies
 
 		// Set hitboxes for the character
 		var circlePhysics = Bodies.circle(this.char.x, this.char.y, 5);
-		var playerSensor = Bodies.circle(this.char.x, this.char.y, 40, { isSensor: true, label: 'playerSensor' });
+		var playerSensor = Bodies.circle(this.char.x, this.char.y, 20, { isSensor: true, label: 'playerSensor' });
+		//@ts-ignore
 		var farSensor = Bodies.circle(this.char.x, this.char.y, 100, { isSensor: true, label: 'farSensor' });
 
 		// Create a sort of group of hitboxes
@@ -58,9 +88,9 @@ export default class Character {
 		this.char.setExistingBody(compoundBody); 
 		this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
 
+
 		// **In the future if you wish to dynamically change the sensor settings, move this to a separate function, and
 		// whenver you call that function, pass a new number for the sensor distance setting. That way it can change depending on passed param
-
 	}
 
 	// Collection of player animations
@@ -131,202 +161,295 @@ export default class Character {
 		this.char.anims.play('idle', true);		// Plays idle animations by default
 		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
 		this.cam.startFollow(this.char, true); 
-
-
-		
-
 	}
 
+	mobileControls(scene: Phaser.Scene)
+	{
+		const { width, height } = scene.scale; 
+
+		// Add extra pointer so mobile players can use two fingers
+		scene.input.addPointer(1)
+
+		// Create and Add buttons to scene
+		this.upBtn = scene.add.image(width * 0.45, height * 0.7, 'up_btn')
+		.setDepth(3)
+		.setScrollFactor(0)
+		.setInteractive();
+
+		this.downBtn = scene.add.image(this.upBtn.x, this.upBtn.y + 50, 'down_btn')
+		.setDepth(1)
+		.setScrollFactor(0)
+		.setInteractive();
+
+		this.leftBtn = scene.add.image(width * 0.40, height * 0.775, 'left_btn')
+		.setDepth(1)
+		.setScrollFactor(0)
+		.setInteractive();
+
+		this.rightBtn = scene.add.image(this.leftBtn.x + 70, this.leftBtn.y, 'right_btn')
+		.setDepth(1)
+		.setScrollFactor(0)
+		.setInteractive();
+
+		this.sprintBtn = scene.add.image(this.rightBtn.x + 70, this.rightBtn.y, 'sprint_btn')
+		.setDepth(1)
+		.setScrollFactor(0)
+		.setInteractive();
+
+		// Set states for the buttons
+		this.rightBtnDown = false;
+		this.leftBtnDown = false; 
+		this.upBtnDown = false;
+		this.downBtnDown = false; 
+		this.sprintBtnDown = false; 
+
+		// Create functions for whenever the buttons are pressed
+		this.rightBtn.on('pointerdown', () => this.rightBtnDown = true);
+		this.leftBtn.on('pointerdown', () => this.leftBtnDown = true);
+		this.upBtn.on('pointerdown', () => this.upBtnDown = true);
+		this.downBtn.on('pointerdown', () => this.downBtnDown = true);
+		this.sprintBtn.on('pointerdown', () => this.sprintBtnDown = true); 
+	}
+
+	
+	
 	
 	// Function that handles player movement
 	move() 
 	{
-		this.speed = 0.15;	
-		var runSpeed = 0.30;	
+		this.speed = 0.90;	// 15 - adjusted in compensation of Firebase server lag
+		this.runSpeed = 2; // 30 - same as above
 		this.playerSpeed = new Phaser.Math.Vector2; 
-		
-		
+
 		// Declare cursors
-		var upCursor = this.cursors.up; 
-		var leftCursor = this.cursors.left; 
-		var downCursor = this.cursors.down;
-		var rightCursor = this.cursors.right;
+		this.upCursor = this.cursors.up; 
+		this.leftCursor = this.cursors.left; 
+		this.downCursor = this.cursors.down;
+		this.rightCursor = this.cursors.right;
 
-		var W = this.keyboard.up;
-		var A = this.keyboard.left;
-		var S = this.keyboard.down;
-		var D = this.keyboard.right;
-		var shift = this.keyboard.shift;
+		this.W = this.keyboard.up;
+		this.A = this.keyboard.left;
+		this.S = this.keyboard.down;
+		this.D = this.keyboard.right;
+		this.shift = this.keyboard.shift;
 
-		var WD = W.isDown && D.isDown
-		var WA = W.isDown && A.isDown
-		var SD = S.isDown && D.isDown
-		var SA = S.isDown && A.isDown
+		this.WD = this.W.isDown && this.D.isDown
+		this.WA = this.W.isDown && this.A.isDown
+		this.SD = this.S.isDown && this.D.isDown
+		this.SA = this.S.isDown && this.A.isDown
 		
-		var upRightCursor = upCursor.isDown && rightCursor.isDown; 
-		var upLeftCursor = upCursor.isDown && leftCursor.isDown; 
-		var downRightCursor = downCursor.isDown && rightCursor.isDown;
-		var downLeftCursor = downCursor.isDown && leftCursor.isDown;
+		this.upRightCursor = this.upCursor.isDown && this.rightCursor.isDown; 
+		this.upLeftCursor = this.upCursor.isDown && this.leftCursor.isDown; 
+		this.downRightCursor = this.downCursor.isDown && this.rightCursor.isDown;
+		this.downLeftCursor = this.downCursor.isDown && this.leftCursor.isDown;
+
 
 		// Prevents players from abruptly moving the opposite direction when holding the other direction
-		if (rightCursor.isDown && leftCursor.isDown) {return}
-		else if (D.isDown && A.isDown) {return}
-		else if (upCursor.isDown && downCursor.isDown) {return}
-		else if (W.isDown && S.isDown) {return}; 
+		if (this.rightCursor.isDown && this.leftCursor.isDown) {return}
+		else if (this.D.isDown && this.A.isDown) {return}
+		else if (this.upCursor.isDown && this.downCursor.isDown) {return}
+		else if (this.W.isDown && this.S.isDown) {return}; 
 
 		// Right
-		if (rightCursor.isDown || D.isDown)
+		if (this.rightCursor.isDown || this.D.isDown || this.rightBtnDown == true)
 		{
-			let anim = 'right'
-			if (shift.isDown) {
-				this.speed = runSpeed;
+			let anim = 'right';
+
+			if (this.shift.isDown || this.sprintBtnDown == true) 
+			{
+				this.speed = this.runSpeed;
 				anim = 'run_right';
+
+				this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 			}
-			this.playerSpeed.x = 1;
+			this.playerSpeed.x = 1
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
-			rightCursor.on('up', () => {this.char.anims.play('idle', true)})	//Plays right-side idle when right cursor is released
-			D.on('up', () => {this.char.anims.play('idle', true)});
+			this.rightCursor.on('up', () => {this.char.anims.play('idle', true)})	//Plays right-side idle when right cursor is released
+			this.D.on('up', () => {this.char.anims.play('idle', true)});
+			this.rightBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.rightBtnDown = false});
 			this.rightStatus = true; 
 			this.leftStatus = false; 
-			 
-		} 
-		// Left
-		else if (leftCursor.isDown || A.isDown)
-		{	 
-			let anim = 'left'
-			if (shift.isDown) {
-				this.speed = runSpeed;
-				anim = 'run_left';
-			}
-			this.playerSpeed.x = -1;
-			this.char.anims.play(anim, true);
-			leftCursor.on('up', () => {this.char.anims.play('idle2', true)});
-			A.on('up', () => {this.char.anims.play('idle2', true)});
-			this.rightStatus = false;
-			this.leftStatus = true; 
 			
 		} 
+
+		// Left
+		else if (this.leftCursor.isDown || this.A.isDown || this.leftBtnDown == true)
+		{	 
+			let anim = 'left';
+
+			if (this.shift.isDown || this.sprintBtnDown == true) 
+			{
+				this.speed = this.runSpeed;
+				anim = 'run_left';
+
+				this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+			}
+			this.playerSpeed.x = -1
+			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
+			this.leftCursor.on('up', () => {this.char.anims.play('idle2', true)})	//Plays right-side idle when right cursor is released
+			this.A.on('up', () => {this.char.anims.play('idle2', true)});
+			this.leftBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.leftBtnDown = false});
+			this.rightStatus = false; 
+			this.leftStatus = true; 
+		} 
+
 		// Up
 		else if (this.rightStatus == undefined || this.leftStatus == undefined) {	
-			if (upCursor.isDown || W.isDown)		
+			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)		
 			{
+
 				let anim = 'right';
-				if (shift.isDown) 
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
 				{
-					this.speed = runSpeed;
+					this.speed = this.runSpeed;
 					anim = 'run_right';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
-				upCursor.on('up', () => {this.char.anims.play('idle', true)});
-				W.on('up', () => {this.char.anims.play('idle', true)});
+				this.upCursor.on('up', () => {this.char.anims.play('idle', true)});
+				this.W.on('up', () => {this.char.anims.play('idle', true)});
+				this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+
+				
 			}
-			else if (downCursor.isDown || S.isDown)
+			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
-				let anim = 'right'
-				if (shift.isDown) 
+				let anim = 'right';
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
 				{
-					this.speed = runSpeed;
+					this.speed = this.runSpeed;
 					anim = 'run_right';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
-				downCursor.on('up', () => {this.char.anims.play('idle', true)});
-				S.on('up', () => {this.char.anims.play('idle', true)});
+				this.downCursor.on('up', () => {this.char.anims.play('idle', true)});
+				this.S.on('up', () => {this.char.anims.play('idle', true)});
+				this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
 			}
 		}
 		else if (this.rightStatus == true)
 		{
-			if (upCursor.isDown || W.isDown)
+			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)
 			{
 				let anim = 'right';
-				if (shift.isDown) 
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
 				{
-					this.speed = runSpeed;
+					this.speed = this.runSpeed;
 					anim = 'run_right';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
-				upCursor.on('up', () => {this.char.anims.play('idle', true)});
-				W.on('up', () => {this.char.anims.play('idle', true)}); 
+				this.upCursor.on('up', () => {this.char.anims.play('idle', true)});
+				this.W.on('up', () => {this.char.anims.play('idle', true)}); 
+				this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
 			}
-			else if (downCursor.isDown || S.isDown)
+			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
-				let anim = 'right'
-				if (shift.isDown) {
-					this.speed = runSpeed;
+				let anim = 'right';
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
+				{
+					this.speed = this.runSpeed;
 					anim = 'run_right';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
-				downCursor.on('up', () => {this.char.anims.play('idle', true)});
-				S.on('up', () => {this.char.anims.play('idle', true)});
+				this.downCursor.on('up', () => {this.char.anims.play('idle', true)});
+				this.S.on('up', () => {this.char.anims.play('idle', true)});
+				this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
 			}
 			
 		}
 		else if (this.leftStatus == true)
 		{
-			if (upCursor.isDown || W.isDown)
+			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)
 			{
 				let anim = 'left';
-				if (shift.isDown) 
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
 				{
-					this.speed = runSpeed;
+					this.speed = this.runSpeed;
 					anim = 'run_left';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
-				upCursor.on('up', () => {this.char.anims.play('idle2', true)});
-				W.on('up', () => {this.char.anims.play('idle2', true)}); 
+				this.upCursor.on('up', () => {this.char.anims.play('idle2', true)});
+				this.W.on('up', () => {this.char.anims.play('idle2', true)}); 
+				this.upBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.upBtnDown = false});
 			}
-			else if (downCursor.isDown || S.isDown)
+			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
-				let anim = 'left'
-				if (shift.isDown) {
-					this.speed = runSpeed;
+				let anim = 'left';
+
+				if (this.shift.isDown || this.sprintBtnDown == true) 
+				{
+					this.speed = this.runSpeed;
 					anim = 'run_left';
+
+					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
-				downCursor.on('up', () => {this.char.anims.play('idle2', true)});
-				S.on('up', () => {this.char.anims.play('idle2', true)});
+				this.downCursor.on('up', () => {this.char.anims.play('idle2', true)});
+				this.S.on('up', () => {this.char.anims.play('idle2', true)});
+				this.downBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.downBtnDown = false}); 
 			}
 			
 		}
 		
 
 		// Up Right
-		if (upRightCursor || WD)
+		if (this.upRightCursor || this.WD)
 		{
 			this.playerSpeed.x = 1;
 			this.playerSpeed.y = -1;
 		}
 		// Up Left
-		if (upLeftCursor || WA)
+		if (this.upLeftCursor || this.WA)
 		{
 			this.playerSpeed.x = -1;
 			this.playerSpeed.y = -1; 
 		}
 		// Down Left
-		if (downLeftCursor || SA)
+		if (this.downLeftCursor || this.SA)
 		{
 			this.playerSpeed.x = -1;
 			this.playerSpeed.y = 1; 
 		}
 		// Down Right
-		if (downRightCursor || SD)
+		if (this.downRightCursor || this.SD)
 		{
 			this.playerSpeed.x = 1;
 			this.playerSpeed.y = 1; 
 		}
 
+	
+		
+		
 		this.playerSpeed.normalize();	// Had to be placed above scale to work
 		this.playerSpeed.scale(this.speed); 	// Uses const speed as reference for value
 		this.char.setVelocity(this.playerSpeed.x, this.playerSpeed.y);	// Velocity is tied to const playerSpeed.x & .y
 		
-
-		
 	}
+
+
+
+	
+	
+
 
 	// Function that provides X position of Character
 	getPositionX()
