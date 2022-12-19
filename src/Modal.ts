@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import ChickenMan from "./components/npcs/chickenman";
 
 export default class Modal{
   
@@ -27,7 +26,7 @@ export default class Modal{
         this.modal = scene.add.image(gameX, gameY, 'dialogue_modal')
             .setDepth(2)
             .setOrigin(0.5)
-            .setScrollFactor(0)
+            .setScrollFactor(0)   // Use width & height from this.scale or else the images wont appear?
             .setInteractive();    // To disable interactions of objects behind the modal
 
         this.closeButton = scene.add.image(gameX + 106, gameY - 22, 'modal_close_btn')
@@ -55,7 +54,7 @@ export default class Modal{
         .setResolution(5); 
     }
 
-    dialogueLines(scene: Phaser.Scene, firstLineMsg: string, secondLineMsg: string, thirdLineMsg: string, fourthLineMsg: string)
+    setDialogueLines(scene: Phaser.Scene, firstLineMsg: string, secondLineMsg: string, thirdLineMsg: string, fourthLineMsg: string)
     {
         this.firstLineMsg = scene.add.text(this.modal.x - 105, this.modal.y - 17, firstLineMsg)
         .setDepth(2)
@@ -114,9 +113,6 @@ export default class Modal{
 
         this.nextButton.on('pointerdown', () => {
             this.destroyAll();
-
-
-              
             this.classOfObject.startDialogue(scene, firstNumAdd, secondNumAdd, thirdNumAdd, fourthNumAdd)
         })
     }
@@ -131,11 +127,6 @@ export default class Modal{
         this.secondLineMsg.destroy();
         this.thirdLineMsg.destroy(); 
         this.fourthLineMsg.destroy(); 
-    }
-
-    destroy()
-    {
-        
     }
 
 }
