@@ -1,17 +1,14 @@
-import Phaser, { Game } from "phaser";
+import Phaser from "phaser";
 import Modal from "../../Modal";
-import Axolotl from "../axolotl/Axolotl";
 import Sensor from "../sensors/sensors";
 import GameStates from "../../GameStates";
 
 export default class ChickenMan{
-
+    
     chickenMan!: Phaser.Physics.Matter.Sprite;
 
     dialogueArray!: any;
 
-    isDialogue1Done!: boolean; 
-    isDialogue2Done!: boolean;
     dialogue!: Modal;
     
     gameStates!: GameStates;
@@ -21,12 +18,12 @@ export default class ChickenMan{
     {
 
         // Try not declaring anything here in constructor 
-
+localStorage.clear()
         // Create series of text for chickenMan
         this.dialogueArray = [
             '1 one',
             '2 two',
-            '3 three',
+            '3 huhhhh',
             '4 four',
 
             '5 five',
@@ -41,19 +38,21 @@ export default class ChickenMan{
         ]; 
     }
 
-    create(scene: Phaser.Scene)
+    create(scene: Phaser.Scene, x: number, y: number, sensorRadius: number, label: string)
     {
         var Bodies = scene.matter.bodies; 
 
-        this.chickenMan = scene.matter.add.sprite(340, 340, 'chicken_man', null)
-            .setDepth(1); 
+        //@ts-ignore You can definitely use null here
+        this.chickenMan = scene.matter.add.sprite(x, y, 'chicken_man', null)
+            .setDepth(1)
 
             // Create custom sensors & hitboxes
-            var chickenManCollisionHitbox = Bodies.rectangle(this.chickenMan.x, this.chickenMan.y, 10, 20, { isStatic: true })
-            var chickenManHitbox = Bodies.circle(this.chickenMan.x, this.chickenMan.y, 10, { isSensor: true, label: 'chickenManHitbox' })
+            var chickenManCollisionHitbox = Bodies.rectangle(this.chickenMan.x, this.chickenMan.y, 10, 15)
+            var chickenManHitbox = Bodies.circle(this.chickenMan.x, this.chickenMan.y, sensorRadius, { isSensor: true, label: label })
+            //@ts-ignore
             var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
                 parts: [ chickenManCollisionHitbox, chickenManHitbox],
-                inertia: 0
+                isStatic: true
             });
             this.chickenMan.setExistingBody(compoundBody); 
 
@@ -61,9 +60,10 @@ export default class ChickenMan{
             var chickenSensor = new Sensor(ChickenMan);
 
                 chickenSensor.setChatCursor(this.chickenMan); 
-                chickenSensor.startDialogue(scene, this.chickenMan);   
-                chickenSensor.enterRange(scene, this.chickenMan, 'chickenManHitbox', 'Who are you?'); 
-                chickenSensor.exitRange(scene, this.chickenMan, 'chickenManHitbox', null); 
+                chickenSensor.initDialogue(scene, this.chickenMan);   
+                chickenSensor.enterRange(scene, this.chickenMan, label, 'Who are you?'); 
+                //@ts-ignore
+                chickenSensor.exitRange(scene, this.chickenMan, label, null); 
     }
 
     anims()
@@ -87,7 +87,6 @@ export default class ChickenMan{
         // Declare a new instance of Game States
         this.gameStates = new GameStates(); 
 
-            // 
             const getUpdated = localStorage.getItem('dialogueFinished'); 
             //@ts-ignore
             this.checkDialogueState = JSON.parse(getUpdated);   
@@ -123,11 +122,7 @@ export default class ChickenMan{
                 
                 this.dialogue.closeModal(); 
                 this.dialogue.setName(scene, 'Chicken Man');
-                this.dialogue.dialogueLines(scene, this.dialogueArray[firstLineNum], this.dialogueArray[secondLineNum], this.dialogueArray[thirdLineNum], this.dialogueArray[fourthLineNum]);
-                // dialogue.firstLine(scene, this.dialogueArray[firstLineNum]); // 0
-                // dialogue.secondLine(scene, this.dialogueArray[secondLineNum]); // 1
-                // dialogue.thirdLine(scene, this.dialogueArray[thirdLineNum]); // 2
-                // dialogue.fourthLine(scene, this.dialogueArray[fourthLineNum]); // 3 11
+                this.dialogue.setDialogueLines(scene, this.dialogueArray[firstLineNum], this.dialogueArray[secondLineNum], this.dialogueArray[thirdLineNum], this.dialogueArray[fourthLineNum]);
     
                 this.dialogue.nextBtn(scene, firstLineNum, secondLineNum, thirdLineNum, fourthLineNum); 
             }
@@ -137,10 +132,4 @@ export default class ChickenMan{
             console.log('dis shud appear')
         }; 
     }
-
-
-        
-        
-
-    // For next page modal, make 
 }

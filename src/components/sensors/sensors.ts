@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import Modal from "../../Modal";
 
 export default class Sensor{
 
@@ -23,12 +22,10 @@ export default class Sensor{
         ); 
     }
 
-
     // Disable interaction when too far & Create modal when inside
     // interactionRangeYesNoModal
     initDialogue(scene: Phaser.Scene, objectVariable: any)
     {
-
         objectVariable.on('pointerdown', () => 
         {
             if (this.proximityCheck == false) 
