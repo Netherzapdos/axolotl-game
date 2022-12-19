@@ -33,9 +33,9 @@ export default class Game extends Phaser.Scene
 
 	// Create character
 		this.char = new Character(this);	// Classes should be declared with "this.x" first, 
-		this.char.create(this, 408, 490);   // then declare the variable at the top of this scene 
-		this.char.mobileControls(this); 
-		this.char.anims(); 					// this allows the Class to be used in global scope.		
+		this.char.create(this, 358, 110);   // then declare the variable at the top of this scene 
+		this.char.anims(); 					// this allows the Class to be used in global scope.	
+		// this.char.mobileControls(this); 	
 																						
 													
 	// Create Axolotl
