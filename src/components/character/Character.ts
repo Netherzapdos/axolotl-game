@@ -217,8 +217,8 @@ export default class Character {
 	// Function that handles player movement
 	move() 
 	{
-		this.speed = 0.90;	// 15 - adjusted in compensation of Firebase server lag
-		this.runSpeed = 2; // 30 - same as above
+		this.speed = 0.40;	// 15 - adjusted in compensation of Firebase server lag // 0.40 live game
+		this.runSpeed = 0.80; // 30 - same as above // 0.80 live game
 		this.playerSpeed = new Phaser.Math.Vector2; 
 
 		// Declare cursors
@@ -260,16 +260,23 @@ export default class Character {
 				this.speed = this.runSpeed;
 				anim = 'run_right';
 
-				this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+				if (this.sprintBtnDown == true) // If Mobile Controls is enabled
+				{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 			}
 			this.playerSpeed.x = 1
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
 			this.rightCursor.on('up', () => {this.char.anims.play('idle', true)})	//Plays right-side idle when right cursor is released
 			this.D.on('up', () => {this.char.anims.play('idle', true)});
-			this.rightBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.rightBtnDown = false});
+
+				if (this.rightBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.rightBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.rightBtnDown = false});
+				}
+
 			this.rightStatus = true; 
 			this.leftStatus = false; 
-			
 		} 
 
 		// Left
@@ -282,19 +289,29 @@ export default class Character {
 				this.speed = this.runSpeed;
 				anim = 'run_left';
 
-				this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+				if (this.sprintBtnDown == true)
+				{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 			}
 			this.playerSpeed.x = -1
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
 			this.leftCursor.on('up', () => {this.char.anims.play('idle2', true)})	//Plays right-side idle when right cursor is released
 			this.A.on('up', () => {this.char.anims.play('idle2', true)});
-			this.leftBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.leftBtnDown = false});
+
+				if (this.leftBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.leftBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.leftBtnDown = false});
+				}
+
 			this.rightStatus = false; 
 			this.leftStatus = true; 
 		} 
 
 		// Up
-		else if (this.rightStatus == undefined || this.leftStatus == undefined) {	
+		// If right & left status is not defined yet
+		else if (this.rightStatus == undefined || this.leftStatus == undefined) {
+			// If pressing Up w/ right & left status not defined yet
 			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)		
 			{
 
@@ -305,16 +322,22 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_right';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
 				this.upCursor.on('up', () => {this.char.anims.play('idle', true)});
 				this.W.on('up', () => {this.char.anims.play('idle', true)});
-				this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
 
-				
+				if (this.upBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+				}
 			}
+			// If pressing Down w/ right & left status not defined yet
 			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
 				let anim = 'right';
@@ -324,17 +347,26 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_right';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
 				this.downCursor.on('up', () => {this.char.anims.play('idle', true)});
 				this.S.on('up', () => {this.char.anims.play('idle', true)});
-				this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+
+				if (this.downBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+				}
 			}
 		}
+		// If right status is defined
 		else if (this.rightStatus == true)
 		{
+			// If pressing Up with right status defined
 			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)
 			{
 				let anim = 'right';
@@ -344,14 +376,22 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_right';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
 				this.upCursor.on('up', () => {this.char.anims.play('idle', true)});
 				this.W.on('up', () => {this.char.anims.play('idle', true)}); 
-				this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+
+				if (this.upBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+				}
 			}
+			// If pressing Down with right status defined
 			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
 				let anim = 'right';
@@ -361,18 +401,27 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_right';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
 				this.downCursor.on('up', () => {this.char.anims.play('idle', true)});
 				this.S.on('up', () => {this.char.anims.play('idle', true)});
-				this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+
+				if (this.downBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+				}
 			}
 			
 		}
+		// If left status is defined
 		else if (this.leftStatus == true)
 		{
+			// If pressing Up with left status defined
 			if (this.upCursor.isDown || this.W.isDown || this.upBtnDown == true)
 			{
 				let anim = 'left';
@@ -382,14 +431,22 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_left';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);} 
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
 				this.upCursor.on('up', () => {this.char.anims.play('idle2', true)});
 				this.W.on('up', () => {this.char.anims.play('idle2', true)}); 
-				this.upBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.upBtnDown = false});
+
+				if (this.upBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.upBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.upBtnDown = false});
+				}
 			}
+			// If pressing Down with left staus defined
 			else if (this.downCursor.isDown || this.S.isDown || this.downBtnDown == true)
 			{
 				let anim = 'left';
@@ -399,13 +456,20 @@ export default class Character {
 					this.speed = this.runSpeed;
 					anim = 'run_left';
 
-					this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false); 
+					if (this.sprintBtnDown == true)
+					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);} 
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
 				this.downCursor.on('up', () => {this.char.anims.play('idle2', true)});
 				this.S.on('up', () => {this.char.anims.play('idle2', true)});
-				this.downBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.downBtnDown = false}); 
+
+				if (this.downBtn == undefined)
+				{
+					// Do nothing 
+				} else {
+					this.downBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.downBtnDown = false});
+				}
 			}
 			
 		}
@@ -436,20 +500,11 @@ export default class Character {
 			this.playerSpeed.y = 1; 
 		}
 
-	
-		
-		
 		this.playerSpeed.normalize();	// Had to be placed above scale to work
 		this.playerSpeed.scale(this.speed); 	// Uses const speed as reference for value
 		this.char.setVelocity(this.playerSpeed.x, this.playerSpeed.y);	// Velocity is tied to const playerSpeed.x & .y
 		
 	}
-
-
-
-	
-	
-
 
 	// Function that provides X position of Character
 	getPositionX()
