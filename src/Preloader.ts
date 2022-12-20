@@ -15,16 +15,12 @@ export default class Preloader extends Phaser.Scene
         this.load.image('menu_button', 'images/menu/button.png')
         this.load.image('menu_cursor', '/images/menu/menu_cursor.png')
         this.load.image('credits_modal', '/images/menu/credits_modal.png')
-        
-
-        // Map
-        // this.load.image('tiles', 'images/tiles/sunny_tiles.png')
-        // this.load.tilemapTiledJSON('island', 'images/maps/island.json')
 
         // New Map
-        this.load.image('tiles', 'images/tiles/Terrain.png');
+        this.load.image('terrain', 'images/tiles/Terrain.png');
+        this.load.image('plant_life', 'images/tiles/Plant Life.png')
         this.load.tilemapTiledJSON('axoltopia_main', 'images/maps/Axoltopia_Main.json')
-    
+        
 
         // Character 
         this.load.spritesheet('char_idle', 'images/sprites/character/char_idle.png', 
