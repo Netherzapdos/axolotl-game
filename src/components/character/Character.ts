@@ -87,6 +87,8 @@ export default class Character {
 		// Make the character use the new group of hitboxes
 		this.char.setExistingBody(compoundBody); 
 		this.char.setOrigin(0.5, 0.6)	// Change main hitbox location
+		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
+		this.cam.startFollow(this.char, true); 
 
 
 		// **In the future if you wish to dynamically change the sensor settings, move this to a separate function, and
@@ -159,8 +161,7 @@ export default class Character {
 				repeat: -1
 		})
 		this.char.anims.play('idle', true);		// Plays idle animations by default
-		this.char.setFixedRotation();	// Disable rotation of sprite when colliding
-		this.cam.startFollow(this.char, true); 
+
 	}
 
 	mobileControls(scene: Phaser.Scene)
@@ -218,7 +219,7 @@ export default class Character {
 	move() 
 	{
 		this.speed = 0.40;	// 15 - adjusted in compensation of Firebase server lag // 0.40 live game
-		this.runSpeed = 0.80; // 30 - same as above // 0.80 live game
+		this.runSpeed = 1.20; // 30 - same as above // 0.80 live game
 		this.playerSpeed = new Phaser.Math.Vector2; 
 
 		// Declare cursors
