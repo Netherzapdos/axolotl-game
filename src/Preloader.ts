@@ -18,7 +18,7 @@ export default class Preloader extends Phaser.Scene
 
         // New Map
         this.load.image('terrain', 'images/tiles/Terrain.png');
-        this.load.image('plant_life', 'images/tiles/Plant Life.png')
+        this.load.image('plant_life', 'images/tiles/Plant_Life.png')
         this.load.tilemapTiledJSON('axoltopia_main', 'images/maps/Axoltopia_Main.json')
         
 
