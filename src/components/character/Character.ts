@@ -205,11 +205,16 @@ export default class Character {
 		this.sprintBtnDown = false; 
 
 		// Create functions for whenever the buttons are pressed
-		this.rightBtn.on('pointerdown', () => this.rightBtnDown = true);
-		this.leftBtn.on('pointerdown', () => this.leftBtnDown = true);
-		this.upBtn.on('pointerdown', () => this.upBtnDown = true);
-		this.downBtn.on('pointerdown', () => this.downBtnDown = true);
-		this.sprintBtn.on('pointerdown', () => this.sprintBtnDown = true); 
+		this.rightBtn.on('pointerover', () => this.rightBtnDown = true);
+		this.rightBtn.on('pointerout', () => this.rightBtnDown = false); 
+		this.leftBtn.on('pointerover', () => this.leftBtnDown = true);
+		this.leftBtn.on('pointerout', () => this.leftBtnDown = false); 
+		this.upBtn.on('pointerover', () => this.upBtnDown = true);
+		this.upBtn.on('pointerout', () => this.upBtnDown = false);
+		this.downBtn.on('pointerover', () => this.downBtnDown = true);
+		this.downBtn.on('pointerout', () => this.downBtnDown = false);
+		this.sprintBtn.on('pointerover', () => this.sprintBtnDown = true); 
+		this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false); 
 	}
 
 	
@@ -219,7 +224,7 @@ export default class Character {
 	move() 
 	{
 		this.speed = 0.40;	// 15 - adjusted in compensation of Firebase server lag // 0.40 live game
-		this.runSpeed = 1.20; // 30 - same as above // 0.80 live game
+		this.runSpeed = 3; // 30 - same as above // 0.80 live game
 		this.playerSpeed = new Phaser.Math.Vector2; 
 
 		// Declare cursors
@@ -262,7 +267,7 @@ export default class Character {
 				anim = 'run_right';
 
 				if (this.sprintBtnDown == true) // If Mobile Controls is enabled
-				{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+				{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 			}
 			this.playerSpeed.x = 1
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
@@ -273,7 +278,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.rightBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.rightBtnDown = false});
+					this.rightBtn.on('pointerout', () => {this.char.anims.play('idle', true); this.rightBtnDown = false});
 				}
 
 			this.rightStatus = true; 
@@ -291,7 +296,7 @@ export default class Character {
 				anim = 'run_left';
 
 				if (this.sprintBtnDown == true)
-				{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+				{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 			}
 			this.playerSpeed.x = -1
 			this.char.anims.play(anim, true);	//True makes it play continuously when pressed
@@ -302,7 +307,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.leftBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.leftBtnDown = false});
+					this.leftBtn.on('pointerout', () => {this.char.anims.play('idle2', true); this.leftBtnDown = false});
 				}
 
 			this.rightStatus = false; 
@@ -324,7 +329,7 @@ export default class Character {
 					anim = 'run_right';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
@@ -335,7 +340,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+					this.upBtn.on('pointerout', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
 				}
 			}
 			// If pressing Down w/ right & left status not defined yet
@@ -349,7 +354,7 @@ export default class Character {
 					anim = 'run_right';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
@@ -360,7 +365,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+					this.downBtn.on('pointerout', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
 				}
 			}
 		}
@@ -378,7 +383,7 @@ export default class Character {
 					anim = 'run_right';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
@@ -389,7 +394,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.upBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
+					this.upBtn.on('pointerout', () => {this.char.anims.play('idle', true); this.upBtnDown = false});
 				}
 			}
 			// If pressing Down with right status defined
@@ -403,7 +408,7 @@ export default class Character {
 					anim = 'run_right';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);}
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);}
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
@@ -414,7 +419,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.downBtn.on('pointerup', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
+					this.downBtn.on('pointerout', () => {this.char.anims.play('idle', true); this.downBtnDown = false});
 				}
 			}
 			
@@ -433,7 +438,7 @@ export default class Character {
 					anim = 'run_left';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);} 
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);} 
 				}
 				this.playerSpeed.y = -1;
 				this.char.anims.play(anim, true);
@@ -444,7 +449,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.upBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.upBtnDown = false});
+					this.upBtn.on('pointerout', () => {this.char.anims.play('idle2', true); this.upBtnDown = false});
 				}
 			}
 			// If pressing Down with left staus defined
@@ -458,7 +463,7 @@ export default class Character {
 					anim = 'run_left';
 
 					if (this.sprintBtnDown == true)
-					{this.sprintBtn.on('pointerup', () => this.sprintBtnDown = false);} 
+					{this.sprintBtn.on('pointerout', () => this.sprintBtnDown = false);} 
 				}
 				this.playerSpeed.y = 1;
 				this.char.anims.play(anim, true);
@@ -469,7 +474,7 @@ export default class Character {
 				{
 					// Do nothing 
 				} else {
-					this.downBtn.on('pointerup', () => {this.char.anims.play('idle2', true); this.downBtnDown = false});
+					this.downBtn.on('pointerout', () => {this.char.anims.play('idle2', true); this.downBtnDown = false});
 				}
 			}
 			
