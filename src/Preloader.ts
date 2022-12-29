@@ -17,8 +17,9 @@ export default class Preloader extends Phaser.Scene
         this.load.image('credits_modal', '/images/menu/credits_modal.png')
 
         // New Map
-        this.load.image('terrain', 'images/tiles/Terrain.png');
-        this.load.image('plant_life', 'images/tiles/Plant_Life.png')
+        this.load.image('pixel_kingdom_terrain', 'images/tiles/PixelKingdomTerrain.png')
+        this.load.image('sunnyside_terrain', 'images/tiles/SunnysideTerrain.png');
+        this.load.image('Plants', 'images/tiles/Plants.png')
         this.load.tilemapTiledJSON('axoltopia_main', 'images/maps/Axoltopia_Main.json')
         
 

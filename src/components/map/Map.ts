@@ -1,38 +1,46 @@
 export default class MainMap
 {
-    map!: Phaser.Tilemaps.MapData; 
+    map: Phaser.Tilemaps.Tilemap;
+    
 
     constructor(scene: Phaser.Scene)
     {
 
-        const map = scene.make.tilemap({ key: 'axoltopia_main' });
-        const terrain = map.addTilesetImage('Terrain', 'terrain');
-        const plantLife = map.addTilesetImage('Plant Life', 'plant_life');
+        this.map = scene.make.tilemap({ key: 'axoltopia_main' });
+        const pixelKingdomTerrain = this.map.addTilesetImage('PixelKingdomTerrain', 'pixel_kingdom_terrain');
+        const sunnySideTerrain = this.map.addTilesetImage('SunnysideTerrain', 'sunnyside_terrain')
+        const plantLife = this.map.addTilesetImage('Plants', 'Plants');
 
         // Add layers
-        const water = map.createLayer('Water', terrain);
+        const water = this.map.createLayer('Water', sunnySideTerrain);
            water.setCollisionByProperty({ collision: true })
-        map.createLayer('Water Shadows', terrain); 
-        map.createLayer('Water Effects', terrain);
-        const sand = map.createLayer('Sand', terrain);
+           this.map.createLayer('Water Shadows', sunnySideTerrain); 
+           this.map.createLayer('Water Effects', sunnySideTerrain);
+        const sand = this.map.createLayer('Sand', sunnySideTerrain);
             sand.setCollisionByProperty({ collision: true })
-        const land = map.createLayer('Land', terrain);
+        const land = this.map.createLayer('Land', sunnySideTerrain);
             land.setCollisionByProperty({ collision: true })
-        map.createLayer('Land Overlay', terrain); 
-        map.createLayer('Land Shadows', terrain); 
+        const landOverlay = this.map.createLayer('Land Overlay', sunnySideTerrain); 
+            landOverlay.setCollisionByProperty({ collision: true });
+            this.map.createLayer('Land Shadows', sunnySideTerrain); 
+            this.map.createLayer('Plants', plantLife)
 
-        map.createLayer('Border', plantLife)
+            this.map.createLayer('Border', plantLife)
             
-        
+       
   
 
         // Convert Tiled tiles into Matter tiles (to apply new physics)
         scene.matter.world.convertTilemapLayer(water);
         scene.matter.world.convertTilemapLayer(sand);
         scene.matter.world.convertTilemapLayer(land); 
+        scene.matter.world.convertTilemapLayer(landOverlay); 
 
     // Set bounds
-        scene.cameras.main.setBounds(0, 0, 1900, 1600) // 992, 800 // 1600 1600 now
-        scene.matter.world.setBounds(0, -5, 1600, 1600) // 1005, 810
+        scene.cameras.main.setBounds(0, 0, 1920, 1920) // 992, 800 // 1600 1600 now
+        scene.matter.world.setBounds(0, -5, 1920, 1920) // 1005, 810
+
+        console.log(this.map.widthInPixels)
+        console.log(this.map.heightInPixels); 
     }
 }
